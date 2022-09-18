@@ -2,6 +2,7 @@
   "expo": {
     "name": "InvestMedia",
     "slug": "InvestMedia",
+    "scheme": "investmedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +11,8 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "fontFamily": "Futura-Md-Bt"
+      "fontFamily": "Futura-Md-Bt",
+      "build-time setting": "scheme" 
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -24,7 +24,8 @@ export default function App() {
 export function tabBar() {
   return (    
     <NavigationContainer>
-    <Routes/>
+    <Routes
+    />
     </NavigationContainer>
   );
 }

@@ -1,12 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { Animated, Image, StyleSheet } from 'react-native';
 import Home from './pages/Home';
 import New from './pages/New';
 import Notification from './pages/Notification';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
-
 import ButtonNew from './components/ButtonNew';
 
 import { Entypo, Feather } from '@expo/vector-icons';
@@ -16,18 +15,12 @@ const Tab = createBottomTabNavigator();
 export default function Routes(){
     return(
         <Tab.Navigator
-            tabBarOptions={{
-                style:{
-                    backgroundColor: '#121212',
-                    borderTopColor: 'transparent',
-                },
-                activeTintColor: '#CFB43C',
-                inactiveTintColor: '#0C0C4B',
-                tabStyle:{
-                    paddingBottom: 5,
-                    paddingTop: 5,
-                }
-            }}
+            screenOptions={({ route }) => ({
+            tabBarInactiveBackgroundColor: "#CFB43C",
+            tabBarActiveBackgroundColor: "#B9A239",
+            tabBarActiveTintColor: '#E1E2E1',
+            tabBarInactiveTintColor: '#E1E2E1',
+          })}
         >
             <Tab.Screen
                 name="Início"
@@ -45,18 +38,7 @@ export default function Routes(){
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="search" size={size} color={color} />
-                    )
-                }}
-            />
-
-            <Tab.Screen
-                name="Novo"
-                component={New}
-                options={{
-                    tabBarLabel: '',
-                    tabBarIcon:({focused,size,color}) => (
-                        <ButtonNew size={size} color={color} focused={focused}/>
-                    )
+                    ),
                 }}
             />
 
