@@ -42,7 +42,7 @@ export default function Login() {
             .then((response) => {
             //const userId = response.data[0]
             console.log(response.data[0].USER_ID);
-            navigation.navigate('TabBar');// passar response.data[0].USER_ID para TabBar como parâmetro
+            navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});// passar response.data[0].USER_ID para TabBar como parâmetro
         });
          
 

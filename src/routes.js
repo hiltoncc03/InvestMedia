@@ -12,7 +12,9 @@ import { Entypo, Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-export default function Routes(){
+export default function Routes({navigation, route}){
+    const USER_ID = route.params.USER_ID;
+    console.log("ROUTES" + USER_ID);
     return(
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -25,6 +27,7 @@ export default function Routes(){
             <Tab.Screen
                 name="Início"
                 component={Home}
+                initialParams={{USER_ID: USER_ID}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="home" size={size} color={color} />
