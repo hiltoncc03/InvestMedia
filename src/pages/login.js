@@ -23,30 +23,32 @@ export default function Login() {
         const REDIRECT_URI = 'https://auth.expo.io/@guilhermecod/InvestMedia';
         const RESPONSE_TYPE = 'token';
         const SCOPE = 'profile email';
-       
-
         const authUrl = encodeURI(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`);
         const response = await AuthSession.startAsync({ authUrl });
-
-
         const TOKEN = await response.params.access_token;
-       
-         
         //console.log(response);
-
+        
         if (response.type === 'success'){ 
-            const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);   
-            const tranformajson = await userdata.json()
-            console.log(tranformajson.email)
-            axios.get(`https://investmedia-server.glitch.me/getId/${tranformajson.email}`)
+            const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);  
+            const transformajson = await userdata.json()
+            console.log(transformajson)
+            axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
             .then((response) => {
-            //const userId = response.data[0]
-            console.log(response.data[0].USER_ID);
-            navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});// passar response.data[0].USER_ID para TabBar como parâmetro
-        });
-         
-
-        }
+                navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                //Chama a tela TabBar, passando o USER_ID como parâmetro
+            })
+            .catch(function (error){ 
+                //Verifica se existe o email logado está cadastrado no banco de dados
+                console.log("Usuario não cadastrado")
+                const dataEntrada = new Date().toDateString()
+                console.log(dataEntrada)
+                // NOTA: VERIFICAR REQUISIÇÃO POST (INCLUSIVE NO GLITCH)
+                axios.post(`https://investmedia-server.glitch.me/${transformajson.name}/${transformajson.email}/${dataEntrada}/${1}/${transformajson.picture}`)
+                .catch (function (error){
+                    console.log("erro no cadastro")
+                })
+            })
+        }   
         
     }
 

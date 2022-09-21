@@ -6,7 +6,7 @@ export default function Home({route}) {
   console.log("ROUTES 2 " + USER_ID);//PASSANDO USER_ID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (HOME)
   return (
     <View style={styles.container}>
-      <Text style={styles.text}> Pagina inicial</Text>
+      <Text style={styles.text}> ID {USER_ID}</Text>
     </View>
   );
 }
