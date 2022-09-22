@@ -5,7 +5,20 @@ import { useNavigation } from '@react-navigation/native';
 import * as AuthSession from 'expo-auth-session';
 import axios from 'axios';
 
+//Formata a data para o formato YYYY-MM-DD
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
 export default function Login() {
     const navigation = useNavigation();
@@ -31,22 +44,33 @@ export default function Login() {
         if (response.type === 'success'){ 
             const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);  
             const transformajson = await userdata.json()
-            console.log(transformajson)
+            //console.log(transformajson)
             axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
             .then((response) => {
                 navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
                 //Chama a tela TabBar, passando o USER_ID como parâmetro
             })
-            .catch(function (error){ 
-                //Verifica se existe o email logado está cadastrado no banco de dados
+            .catch(function (error){  //Verifica se existe o email logado está cadastrado no banco de dados
                 console.log("Usuario não cadastrado")
-                const dataEntrada = new Date().toDateString()
-                console.log(dataEntrada)
-                // NOTA: VERIFICAR REQUISIÇÃO POST (INCLUSIVE NO GLITCH)
-                axios.post(`https://investmedia-server.glitch.me/${transformajson.name}/${transformajson.email}/${dataEntrada}/${1}/${transformajson.picture}`)
-                .catch (function (error){
-                    console.log("erro no cadastro")
+                console.log(transformajson);
+                const dataEntrada = formatDate(new Date().toDateString()) //Obtém a data atual pelo método new Date().toDateString() e converte para o formato YYYY-MM-DD pelo método formatDate()
+                // Registra novo usuário no Banco de dados, por meio das informações obtidas pelo oAuth
+                axios.post(`https://investmedia-server.glitch.me/infoUser`, 
+                    {
+                        nome: transformajson.name, 
+                        email: transformajson.email, 
+                        dataEntrada: dataEntrada, 
+                        verificado: 1,
+                        fotoPerfil: transformajson.picture
+                    }
+                )
+                .then((response) => {
+                    console.log("Usuário cadastrado, redirecionando para Home")
+                    //continuar Login após cadastro
                 })
+                .catch(err => 
+                    console.log("Erro --> " + JSON.stringify(err.response.data))
+                )
             })
         }   
         
