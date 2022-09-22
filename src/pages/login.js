@@ -64,9 +64,14 @@ export default function Login() {
                         fotoPerfil: transformajson.picture
                     }
                 )
-                .then((response) => {
-                    console.log("Usuário cadastrado, redirecionando para Home")
-                    //continuar Login após cadastro
+                .then(() => {
+                    console.log("Usuário cadastrado, fazendo login")
+                    axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
+                    .then((response) => {
+                        console.log("Redirecionando para Home")
+                        navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                        //Chama a tela TabBar, passando o USER_ID como parâmetro
+                    })
                 })
                 .catch(err => 
                     console.log("Erro --> " + JSON.stringify(err.response.data))
