@@ -38,6 +38,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Pesquisar"
                 component={Search}
+                initialParams={{USER_ID: USER_ID}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="search" size={size} color={color} />
@@ -48,6 +49,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Notificações"
                 component={Notification}
+                initialParams={{USER_ID: USER_ID}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="notification" size={size} color={color} />
@@ -58,6 +60,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Perfil"
                 component={Profile}
+                initialParams={{USER_ID: USER_ID}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="user" size={size} color={color} />

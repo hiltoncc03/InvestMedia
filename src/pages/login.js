@@ -20,6 +20,13 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
+function preparaFotoPerfil(fotoPerfil){
+    const fotoPerfilSaida = fotoPerfil = JSON.stringify(fotoPerfil).slice(1)
+    fotoPerfil = JSON.stringify(fotoPerfil).slice(0, JSON.stringify(fotoPerfil).length - 6)// ????????????
+    console.log(fotoPerfilSaida)
+    return fotoPerfilSaida;
+}
+
 export default function Login() {
     const navigation = useNavigation();
     //Comando utilizado através do useEffect para evitar que a animação da tela splash se repita após o usuário usar o back.
@@ -44,7 +51,7 @@ export default function Login() {
         if (response.type === 'success'){ 
             const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);  
             const transformajson = await userdata.json()
-            //console.log(transformajson)
+            console.log(transformajson)
             axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
             .then((response) => {
                 navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
@@ -61,7 +68,8 @@ export default function Login() {
                         email: transformajson.email, 
                         dataEntrada: dataEntrada, 
                         verificado: 1,
-                        fotoPerfil: transformajson.picture
+                        fotoPerfil: preparaFotoPerfil(transformajson.fotoPerfil)
+                        // Retira os ultimos 6 caracteres da string que contém o link da foto de perfil, que são responsáveis por limitar a qualidade da foto
                     }
                 )
                 .then(() => {

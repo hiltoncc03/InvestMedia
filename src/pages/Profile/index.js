@@ -27,12 +27,15 @@ function LogoTitle() {
 }
 
   
-export default function App(){
-  baseUrl =  'https://investmedia-server.glitch.me'
+export default function App({route}){
+  const baseUrl =  'https://investmedia-server.glitch.me';
+  //PASSANDO USER_ID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
+  const USER_ID = route.params.USER_ID;
+  console.log("USER_ID (PERFIL) " + USER_ID);
   const [dadosPerfil, setDados] = useState([]);
   useEffect(() => {
     let mounted = true;
-    axios.get(`${baseUrl}/infoUser`)
+    axios.get(`${baseUrl}/infoUser/${USER_ID}`)
     .then((response) => {
       console.log(response.data)
       setDados(response.data[0])
@@ -46,7 +49,9 @@ export default function App(){
       <View style={styles.headerPerfil}>
         <View style={styles.headerPerfilEsquerdo}>
           <Image
-            source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
+            source={{
+              uri: dadosPerfil.fotoPerfil,
+            }}
             style={styles.photoPerfil}
           ></Image>
           <Text style={styles.textUser}>{dadosPerfil.nome}</Text>
