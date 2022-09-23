@@ -21,10 +21,10 @@ function formatDate(date) {
 }
 
 function preparaFotoPerfil(fotoPerfil){
-    const fotoPerfilSaida = fotoPerfil = JSON.stringify(fotoPerfil).slice(1)
-    fotoPerfil = JSON.stringify(fotoPerfil).slice(0, JSON.stringify(fotoPerfil).length - 6)// ????????????
-    console.log(fotoPerfilSaida)
-    return fotoPerfilSaida;
+    const fotoString = JSON.stringify(fotoPerfil);
+    const res = fotoString.substring(1, fotoString.length-7)
+    console.log(res)
+    return res;
 }
 
 export default function Login() {
@@ -62,13 +62,14 @@ export default function Login() {
                 console.log(transformajson);
                 const dataEntrada = formatDate(new Date().toDateString()) //Obtém a data atual pelo método new Date().toDateString() e converte para o formato YYYY-MM-DD pelo método formatDate()
                 // Registra novo usuário no Banco de dados, por meio das informações obtidas pelo oAuth
+                console.log(transformajson.picture)
                 axios.post(`https://investmedia-server.glitch.me/infoUser`, 
                     {
                         nome: transformajson.name, 
                         email: transformajson.email, 
                         dataEntrada: dataEntrada, 
                         verificado: 1,
-                        fotoPerfil: preparaFotoPerfil(transformajson.fotoPerfil)
+                        fotoPerfil: preparaFotoPerfil(transformajson.picture)
                         // Retira os ultimos 6 caracteres da string que contém o link da foto de perfil, que são responsáveis por limitar a qualidade da foto
                     }
                 )

@@ -68,7 +68,7 @@ export default function App({route}){
           </View>
         </View>
         <View style={styles.headerPerfilDireito}>
-          <Text style={styles.textName}>Eugenio de Souza</Text>
+          <Text style={styles.textName}>{dadosPerfil.nome}</Text>
           <Text style={styles.textBio}>Cataguases{"\n"}Atleta</Text>
           <View style={{ flexDirection: "row", marginTop: 8, marginRight: 52 }}>
             <Image
