@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Animated, Image, StyleSheet } from 'react-native';
 import Home from './pages/Home';
 import New from './pages/New';
-import Notification from './pages/Notification';
+import Ativos from './pages/StockAssets';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
 import ButtonNew from './components/ButtonNew';
@@ -58,8 +58,8 @@ export default function Routes({navigation, route}){
             />
 
             <Tab.Screen
-                name="Notificações"
-                component={Notification}
+                name="Ativos"
+                component={Ativos}
                 initialParams={{USER_ID: USER_ID}}
                 options={{
                     tabBarIcon:({size,color}) => (
