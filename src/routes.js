@@ -22,6 +22,15 @@ export default function Routes({navigation, route}){
             tabBarActiveBackgroundColor: "#B9A239",
             tabBarActiveTintColor: '#E1E2E1',
             tabBarInactiveTintColor: '#E1E2E1',
+            headerStyle: {
+                backgroundColor: '#CFB43C'
+            },
+            headerTitle: "InvestMedia",
+            headerTitleStyle:{
+                fontWeight: "bold",
+                fontSize: 22,
+                color: '#E1E2E1'
+            }
           })}
         >
             <Tab.Screen
@@ -31,7 +40,8 @@ export default function Routes({navigation, route}){
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="home" size={size} color={color} />
-                    )
+                    ),
+                    tabBarShowLabel: false
                 }}
             />
 
@@ -43,6 +53,7 @@ export default function Routes({navigation, route}){
                     tabBarIcon:({size,color}) => (
                         <Feather name="search" size={size} color={color} />
                     ),
+                    tabBarShowLabel: false
                 }}
             />
 
@@ -53,7 +64,8 @@ export default function Routes({navigation, route}){
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="notification" size={size} color={color} />
-                    )
+                    ),
+                    tabBarShowLabel: false
                 }}
             />
 
@@ -64,7 +76,8 @@ export default function Routes({navigation, route}){
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="user" size={size} color={color} />
-                    )
+                    ),
+                    tabBarShowLabel: false
                 }}
             />
 

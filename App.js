@@ -20,7 +20,6 @@ export default function App() {
     
   );
 }
-// Criar sistema de verificação de login
 export function tabBar() {
   return (    
     <NavigationContainer>

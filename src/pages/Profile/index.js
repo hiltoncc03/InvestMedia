@@ -7,7 +7,8 @@ import {
   Image,
   Dimensions,
   Pressable,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
@@ -69,8 +70,8 @@ export default function App({route}){
         </View>
         <View style={styles.headerPerfilDireito}>
           <Text style={styles.textName}>{dadosPerfil.nome}</Text>
-          <Text style={styles.textBio}>Cataguases{"\n"}Atleta</Text>
-          <View style={{ flexDirection: "row", marginTop: 8, marginRight: 52 }}>
+          <Text style={styles.textBio}>{dadosPerfil.userBio}</Text>
+          <View style={{ flexDirection: "row", marginTop: 8, marginRight: 52}}>
             <Image
               source={require("../../../assets/images/TriânguloUp.png")}
               style={styles.iconStock}
@@ -86,31 +87,33 @@ export default function App({route}){
             <Text style={styles.textLegenda2}>Resumo Mensal</Text>
             <Text style={styles.textLegenda2}>Resumo Semanal</Text>
           </View>
-          <View style={{ flexDirection: "row", alignSelf: "center" }}>
-            <Pressable style={styles.pressableHeader}>
+          <View style={{ flexDirection: "row", alignSelf: "center"}}>
+            <TouchableOpacity style={styles.pressableHeader}>
               <Text
                 style={{
                   textAlign: "center",
                   color: "#ffffff",
-                  fontSize: 12,
-                  marginTop: 3,
+                  fontSize: 14,
+                  textAlignVertical: "auto",
+                  marginTop: 2
                 }}
               >
                 Seguir
               </Text>
-            </Pressable>
-            <Pressable style={styles.pressableHeader}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.pressableHeader}>
               <Text
                 style={{
                   textAlign: "center",
                   color: "#ffffff",
-                  fontSize: 12,
-                  marginTop: 3,
+                  fontSize: 14,
+                  textAlignVertical: "auto",
+                  marginTop: 2,
                 }}
               >
                 Mensagem
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -298,12 +301,12 @@ const styles = StyleSheet.create({
   },
   pressableHeader: {
     backgroundColor: "#c6b347",
-    height: 25,
-    width: 73,
+    height: 28,
+    width: 83,
     borderRadius: 10,
-    marginLeft: 1,
+    marginLeft: 10,
     alignContent: "center",
     marginTop: 10,
-    marginRight: 8,
+    marginRight: 10,
   },
 });
