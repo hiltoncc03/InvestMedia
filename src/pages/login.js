@@ -52,12 +52,13 @@ export default function Login() {
             const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);  
             const transformajson = await userdata.json()
             console.log(transformajson)
-            axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
+            await axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
             .then((response) => {
                 navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
                 //Chama a tela TabBar, passando o USER_ID como parâmetro
             })
             .catch(function (error){  //Verifica se existe o email logado está cadastrado no banco de dados
+                console.log(error)
                 console.log("Usuario não cadastrado")
                 console.log(transformajson);
                 const dataEntrada = formatDate(new Date().toDateString()) //Obtém a data atual pelo método new Date().toDateString() e converte para o formato YYYY-MM-DD pelo método formatDate()

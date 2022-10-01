@@ -16,8 +16,8 @@ const ListHeader = () => (
     </>
 )
 
-export function ativos() {
-
+export default function Ativos({route}) {
+    const USER_ID = route.params.USER_ID;
     const [selectedStockassetData, setSelectedStockassetData] = useState(null);
 
     // ref
