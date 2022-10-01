@@ -80,6 +80,7 @@ export default function Login() {
                     .then((response) => {
                         console.log("Redirecionando para Home")
                         navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                        //navigation.navigate('Register', {'USER_ID' : response.data[0].USER_ID});
                         //Chama a tela TabBar, passando o USER_ID como parâmetro
                     })
                 })

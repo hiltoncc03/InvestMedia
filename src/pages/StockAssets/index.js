@@ -63,7 +63,7 @@ export default function Ativos({route}) {
 
                 >
                 { selectedStockassetData ? (
-                /*Condição que verifica se a variavel dos ativos possui dados. */    
+                /*Condição que verifica se a variavel dos ativos possui dados. */
 
                  <Grafico
                     cotação={selectedStockassetData.current_price}
