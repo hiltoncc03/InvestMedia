@@ -33,7 +33,8 @@ export default function Ativos({route}) {
 
 
     return (
-
+        <View></View>
+        /*
         <GestureHandlerRootView style={{ flex: 1 }}>
             <BottomSheetModalProvider>
                 <SafeAreaView>
@@ -63,7 +64,7 @@ export default function Ativos({route}) {
 
                 >
                 { selectedStockassetData ? (
-                /*Condição que verifica se a variavel dos ativos possui dados. */
+                //Condição que verifica se a variavel dos ativos possui dados.
 
                  <Grafico
                     cotação={selectedStockassetData.current_price}
@@ -79,7 +80,7 @@ export default function Ativos({route}) {
                 </BottomSheetModal>
 
             </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        </GestureHandlerRootView>*/
     );
 }
 

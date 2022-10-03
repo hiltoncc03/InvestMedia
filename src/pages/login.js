@@ -54,7 +54,8 @@ export default function Login() {
             console.log(transformajson)
             await axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
             .then((response) => {
-                navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                //navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                navigation.navigate('Register', {'USER_ID' : response.data[0].USER_ID});
                 //Chama a tela TabBar, passando o USER_ID como parâmetro
             })
             .catch(function (error){  //Verifica se existe o email logado está cadastrado no banco de dados
@@ -79,8 +80,8 @@ export default function Login() {
                     axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
                     .then((response) => {
                         console.log("Redirecionando para Home")
-                        navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
-                        //navigation.navigate('Register', {'USER_ID' : response.data[0].USER_ID});
+                        //navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
+                        navigation.navigate('Register', {'USER_ID' : response.data[0].USER_ID});
                         //Chama a tela TabBar, passando o USER_ID como parâmetro
                     })
                 })
