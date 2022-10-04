@@ -1,17 +1,21 @@
 import React, { FC, ReactElement, useState } from "react";
-import { Button, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Button, StyleSheet, TextInput, TouchableOpacity, Text, Image} from "react-native";
 //import Parse from "parse/react-native";
 import { useNavigation } from '@react-navigation/native';
 import { View } from "react-native";
 
-export default function Register(/*{route}*/) {
-    USER_ID = 22//route.params.USER_ID
+export default function Register({route}) {
+    USER_ID = route.params.USER_ID
+    console.log(USER_ID)
     const navigation = useNavigation();
     const [userName, setUsername] = useState("");
     const [userBio, setUserBio] = useState("");
 
     return (
     <View style={styles.screenView}>
+        <Image
+          style = {{height: 250, resizeMode: 'contain', marginBottom: 50}}
+          source={require('../../assets/LoginImage.png')} />
         <TextInput
         style={styles.inputUser}
         value={userName}
@@ -31,11 +35,12 @@ export default function Register(/*{route}*/) {
 
         onChangeText={(text) => setUserBio(text)}
       />
-      <TouchableOpacity> color = '#CFB43C' style={styles.button} onPress={() => {
+      <TouchableOpacity style={styles.button}
+      onPress={() => {
         //Fazer post de variáveis username e userbio
-        navigation.navigate('TabBar', {'USER_ID' : response.data[0].USER_ID});
-      }} 
-      <Text>Confirmar</Text>
+        navigation.navigate('TabBar', {'USER_ID' : USER_ID});
+      }} >  
+      <Text style={{color: 'white', alignSelf: 'center', padding: 7}}>Confirmar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -65,7 +70,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    borderWidth: 100
+    borderRadius: 100,
+    backgroundColor: '#CFB43C',
+    height: 37,
+    width: 115,
+    marginTop: 30
   },
   
 });

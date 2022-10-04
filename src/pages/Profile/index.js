@@ -8,7 +8,8 @@ import {
   Dimensions,
   Pressable,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
@@ -25,7 +26,7 @@ function LogoTitle() {
       source={require("../../../assets/InvestMediaNomePreto.png")}
     />
   );
-}
+};
 
   
 export default function App({route}){
@@ -45,6 +46,7 @@ export default function App({route}){
     return () => mounted = false;
   }, [])  
   return (
+  <ScrollView>
     <View style={styles.background}>
       {/*HEADER DO PERFIL*/}
       <View style={styles.headerPerfil}>
@@ -175,8 +177,9 @@ export default function App({route}){
       </View>
       </View>
     </View>
+    </ScrollView>
   );
-
+    
   
 }
 
