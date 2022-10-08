@@ -29,7 +29,7 @@ export default function Routes({navigation, route}){
             headerTitleStyle:{
                 fontWeight: "bold",
                 fontSize: 22,
-                color: '#E1E2E1'
+                color: '#fff'
             }
           })}
         >

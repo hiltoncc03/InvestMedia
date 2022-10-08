@@ -28,7 +28,28 @@ function LogoTitle() {
   );
 };
 
-  
+//RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
+function getFollowersNumber(USER_ID){
+  const [folowersNumber, setFolowersNumber] = useState([]);
+  axios.get(`https://investmedia-server.glitch.me/getFolowersNumber/${USER_ID}`)
+  .then((response) => {
+    console.log("func - " + response.data[0])
+    setFolowersNumber(response.data[0].folowersNumber)
+  })
+  return folowersNumber
+}  
+
+//RETORNA O NUMERO DE PUBLICAÇÕES DO USUÁRIO
+function getPostsNumber(USER_ID){
+  const [postsNumber, setPostsNumber] = useState([]);
+  axios.get(`https://investmedia-server.glitch.me/getPostsNumber/${USER_ID}`)
+  .then((response) => {
+    console.log("func - " + response.data[0])
+    setPostsNumber(response.data[0].postsNumber)
+  })
+  return postsNumber
+} 
+
 export default function App({route}){
   const baseUrl =  'https://investmedia-server.glitch.me';
   //PASSANDO USER_ID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
@@ -44,7 +65,8 @@ export default function App({route}){
       console.log(dadosPerfil);
   })
     return () => mounted = false;
-  }, [])  
+  }, [])
+  
   return (
   <ScrollView>
     <View style={styles.background}>
@@ -61,19 +83,21 @@ export default function App({route}){
           
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <View style={{ marginRight: 30 }}>
-              <Text style={styles.textQuant}>5</Text>
+              <Text style={styles.textQuant}>{getPostsNumber(USER_ID)}</Text>
               <Text style={styles.textLegenda}>Publicações</Text>
             </View>
             <View>
-              <Text style={styles.textQuant}>755</Text>
+              <Text style={styles.textQuant}>{getFollowersNumber(USER_ID)}</Text>
               <Text style={styles.textLegenda}>Seguidores</Text>
             </View>
           </View>
         </View>
         <View style={styles.headerPerfilDireito}>
-          <Text style={styles.textName}>{dadosPerfil.nome}</Text>
-          <Text style={styles.textBio}>{dadosPerfil.userBio}</Text>
-          <View style={{ flexDirection: "row", marginTop: 8, marginRight: 52}}>
+          <View style={{justifyContent: 'flex-start', height: 82}}>
+            <Text style={styles.textName}>{dadosPerfil.nome}</Text>
+            <Text style={styles.textBio}>{dadosPerfil.userBio}</Text>
+          </View>
+          <View style={{ flexDirection: "row"}}>
             <Image
               source={require("../../../assets/images/TriânguloUp.png")}
               style={styles.iconStock}
@@ -97,7 +121,7 @@ export default function App({route}){
                   color: "#ffffff",
                   fontSize: 14,
                   textAlignVertical: "auto",
-                  marginTop: 2
+                  padding: 3.5
                 }}
               >
                 Seguir
@@ -110,7 +134,7 @@ export default function App({route}){
                   color: "#ffffff",
                   fontSize: 14,
                   textAlignVertical: "auto",
-                  marginTop: 2,
+                  padding: 3.5
                 }}
               >
                 Mensagem
@@ -200,37 +224,42 @@ const styles = StyleSheet.create({
   },
   photoPerfil: {
     borderRadius: 999,
-    height: 90,
-    width: 90,
+    height: 93,
+    width: 93,
     alignSelf: "center",
     marginTop: "4%",
   },
   headerPerfilEsquerdo: {
     width: 200,
     height: 200,
+    marginTop: 5,
+    marginBottom: 10
   },
   headerPerfilDireito: {
     width: 200,
     height: 200,
+    marginTop: 5,
+    marginBottom: 10,
+    marginRight: 13
   },
   background: {
     backgroundColor: "#eaeaea",
     flex: 1,
   },
   headerPerfil: {
+    flex: 1,
     marginLeft: "2%",
     marginRight: "2%",
     marginTop: "1.9%",
     marginBottom: "4.9%",
     backgroundColor: "#ffffff",
     borderRadius: 20,
-    height: "26.5%",
+    height: 200,
     flexDirection: "row",
-    alignSelf: "center",
+    justifyContent: 'space-between'
   },
   publicacoesPerfil: {
     flex: 1,
-    
     marginLeft: "2%",
     marginRight: "2%",
     marginBottom: "4.9%",
@@ -238,16 +267,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textUser: {
-    marginTop: "1.5%",
+    marginTop: 8,
     fontSize: 16,
     fontWeight: "bold",
     color: "#14144b",
     textAlign: "center",
     alignSelf: "center",
-    marginLeft: 10,
   },
   textQuant: {
-    marginTop: "1.5%",
+    marginTop: 10,
     fontSize: 14,
     fontWeight: "bold",
     color: "#14144b",
@@ -284,7 +312,6 @@ const styles = StyleSheet.create({
     color: "#848484",
     textAlign: "center",
     alignSelf: "center",
-    marginLeft: 2,
     marginRight: 5,
   },
   textStock: {
@@ -307,7 +334,6 @@ const styles = StyleSheet.create({
     height: 28,
     width: 83,
     borderRadius: 10,
-    marginLeft: 10,
     alignContent: "center",
     marginTop: 10,
     marginRight: 10,

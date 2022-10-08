@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { useRef, useMemo, useState } from 'react';
 import { Text, StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { ListaItem } from '../../../assets/stockAssetsComponents/ListaItem'
-import { Grafico } from '../../../assets/stockAssetsComponents/Grafico'
-import { Dadosdeamostra } from '../../../assets/stockAssetsComponents/Dadosdeamostra'
+// import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+// import { ListaItem } from '../../../assets/stockAssetsComponents/ListaItem'
+// import { Grafico } from '../../../assets/stockAssetsComponents/Grafico'
+// import { Dadosdeamostra } from '../../../assets/stockAssetsComponents/Dadosdeamostra'
 
 const ListHeader = () => (
     <>
