@@ -24,6 +24,7 @@ export default function Register({route}) {
         autoCapitalize={"none"}
         selectionColor = "#CFB43C"
         />
+        {console.log(userName)}
       <TextInput
         style={styles.inputBio}
         value={userBio}
