@@ -3,6 +3,25 @@ import { Button, StyleSheet, TextInput, TouchableOpacity, Text, Image} from "rea
 //import Parse from "parse/react-native";
 import { useNavigation } from '@react-navigation/native';
 import { View } from "react-native";
+import axios from 'axios';
+
+
+// FAZ O POST DAS INFORMAÇÕES CONFIGURADAS NA TELA DE REGISTRO
+function postBioEUser(userName, userBio, USER_ID){
+  if(userName[0]!='@'){
+    userName= "@" + userName
+  }
+  console.log("USERNAME --->> " + userName)
+  axios.post(`https://investmedia-server.glitch.me/bioEUser`, 
+  {
+    userName : userName,
+    userBio: userBio,
+    USER_ID: USER_ID
+  }
+  ).catch(error => {
+    console.log(JSON.stringify(error.response))
+  })
+}
 
 export default function Register({route}) {
     USER_ID = route.params.USER_ID
@@ -38,7 +57,7 @@ export default function Register({route}) {
       />
       <TouchableOpacity style={styles.button}
       onPress={() => {
-        //Fazer post de variáveis username e userbio
+        postBioEUser(userName, userBio, USER_ID)
         navigation.navigate('TabBar', {'USER_ID' : USER_ID});
       }} >  
       <Text style={{color: 'white', alignSelf: 'center', padding: 7}}>Confirmar</Text>

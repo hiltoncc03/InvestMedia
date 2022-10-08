@@ -57,7 +57,7 @@ export default function App({route}){
             }}
             style={styles.photoPerfil}
           ></Image>
-          <Text style={styles.textUser}>{dadosPerfil.nome}</Text>
+          <Text style={styles.textUser}>{dadosPerfil.userName}</Text>
           
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <View style={{ marginRight: 30 }}>
