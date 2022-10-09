@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import registerNNPushToken from 'native-notify'
 
 export default function Notification() {
+  registerNNPushToken(4240, '6tj2wjvCXaSSI6LpQfwkSY');
   return (
     <View style={styles.container}>
       <Text style={styles.text}> Pagina notificacao</Text>
