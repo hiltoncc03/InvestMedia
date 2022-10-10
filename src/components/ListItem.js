@@ -1,9 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, View, Image, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ListItem = ({ data }) => {
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={() =>{
+        console.log(data);
+        navigation.navigate('TabBar', {'USER_ID' : data.id});
+      }}>
       <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />
       <View style={styles.itemInfo}>
         <Text style={styles.itemP1}>{data.nome}</Text>
