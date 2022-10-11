@@ -13,37 +13,43 @@ import ListItem from '../../components/ListItem';
 
 const App = () => {
   const [searchText, setSearchText] = useState('');
-  const baseUrl =  'https://investmedia-server.glitch.me/searchUser';
-  const [list, setList] = useState(baseUrl);
-  axios.get(`${baseUrl}/${searchText}`).then(function(response){
-    console.log('Success: ', response.data);    
-    useEffect(() => {
-      if (searchText === '') {
-        setList(response.data);
-      } else {
-        setList(
-          response.filter(item => {
-            item.data.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-          })
+  const [canSearch, setCanSearch] = useState(true);
+  const [delayTimeout, setDelayTimeout] = useState(() => { })
+  const baseUrl = 'https://investmedia-server.glitch.me/searchUser';
+  const [list, setList] = useState([]);
+
+  useEffect(function () {
+    if (canSearch) {
+      setCanSearch(false)
+      axios.get(`${baseUrl}/${searchText}`)
+        .then((response) => {
+          console.log('Success: ', response.data);
+          setList(
+            response.data
           );
-        }
-      }, [searchText]);
-        
-      }).catch(function(error){
-        console.log('Error: ', response.data)
-      });
-  
-  
+
+        }).catch(function (error) {
+          console.log('Error: ', error)
+        })
+    }
+  }, [searchText, canSearch])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchArea}>
         <TextInput
           style={styles.input}
-          placeholder="Pesquise uma pessoa"
+          placeholder="Pesquisar"
           placeholderTextColor="#888"
           value={searchText}
-          onChangeText={(t) => setSearchText(t)}
-          />
+          onChangeText={(t) => {
+            setSearchText(t);
+
+            setDelayTimeout(setTimeout(() => {
+              setCanSearch(true);
+            }, 750));
+          }}
+        />
       </View>
 
       <FlatList
@@ -51,7 +57,7 @@ const App = () => {
         style={styles.list}
         renderItem={({ item }) => <ListItem data={item} />}
         keyExtractor={(item) => item.id}
-        />
+      />
 
       <StatusBar style='light' />
     </SafeAreaView>
@@ -59,7 +65,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
     backgroundColor: '#E1E2E1',
   },
@@ -68,12 +74,11 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#F5F5F5',
     margin: 10,
-    marginTop: 25,
-    borderRadius: 30,
+    marginTop: 15,
+    borderRadius: 10,
     fontSize: 19,
-    paddingLeft: 5,
-    paddingRight: 5,
     color: '#000000',
+    padding: 10
   },
   searchArea: {
     marginLeft: 5,
