@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 export default function Home({route}) {
-  const USER_ID = route.params.USER_ID;
+  const loggedUser = route.params.loggedUser;
     return (
     <View style={styles.container}>
-      <Text style={styles.text}> ID {USER_ID}</Text>
+      <Text style={styles.text}> ID {loggedUser}</Text>
     </View>
   );
 }

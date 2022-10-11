@@ -40,7 +40,7 @@ const App = () => {
         <TextInput
           style={styles.input}
           placeholder="Pesquisar"
-          placeholderTextColor="#888"
+          placeholderTextColor="#848484"
           value={searchText}
           onChangeText={(t) => {
             setSearchText(t);
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 19,
     color: '#000000',
-    padding: 10
+    padding: 10,
   },
   searchArea: {
     marginLeft: 5,

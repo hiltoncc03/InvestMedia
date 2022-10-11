@@ -13,8 +13,8 @@ import { Entypo, Feather } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 export default function Routes({navigation, route}){
-    const USER_ID = route.params.USER_ID;
-    console.log("ROUTES" + USER_ID);
+    const loggedUser = route.params.USER_ID;
+    console.log("ROUTES" + loggedUser);
     return(
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -36,7 +36,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Início"
                 component={Home}
-                initialParams={{USER_ID: USER_ID}}
+                initialParams={{loggedUser: loggedUser}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="home" size={size} color={color} />
@@ -48,7 +48,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Pesquisar"
                 component={Search}
-                initialParams={{USER_ID: USER_ID}}
+                initialParams={{loggedUser: loggedUser}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="search" size={size} color={color} />
@@ -60,7 +60,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Ativos"
                 component={Ativos}
-                initialParams={{USER_ID: USER_ID}}
+                initialParams={{loggedUser: loggedUser}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Entypo name="notification" size={size} color={color} />
@@ -72,7 +72,7 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Perfil"
                 component={Profile}
-                initialParams={{USER_ID: USER_ID}}
+                initialParams={{loggedUser: loggedUser, showProfileID: loggedUser}}
                 options={{
                     tabBarIcon:({size,color}) => (
                         <Feather name="user" size={size} color={color} />

@@ -27,11 +27,20 @@ function LogoTitle() {
     />
   );
 };
+//RETORNA A INSTRUÇÃO DE RENDERIZAÇÃO DO PRESSABLE
+function isPressableDisabled(isUserProfile){
+  if(isUserProfile){
+    return 'pressableHeaderDisabled'
+  }
+  else{
+    return 'pressableHeader'
+  }
+}
 
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
-function getFollowersNumber(USER_ID){
+function getFollowersNumber(showProfileID){
   const [folowersNumber, setFolowersNumber] = useState([]);
-  axios.get(`https://investmedia-server.glitch.me/getFolowersNumber/${USER_ID}`)
+  axios.get(`https://investmedia-server.glitch.me/getFolowersNumber/${showProfileID}`)
   .then((response) => {
     console.log("func - " + response.data[0])
     setFolowersNumber(response.data[0].folowersNumber)
@@ -40,9 +49,9 @@ function getFollowersNumber(USER_ID){
 }  
 
 //RETORNA O NUMERO DE PUBLICAÇÕES DO USUÁRIO
-function getPostsNumber(USER_ID){
+function getPostsNumber(showProfileID){
   const [postsNumber, setPostsNumber] = useState([]);
-  axios.get(`https://investmedia-server.glitch.me/getPostsNumber/${USER_ID}`)
+  axios.get(`https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`)
   .then((response) => {
     console.log("func - " + response.data[0])
     setPostsNumber(response.data[0].postsNumber)
@@ -52,17 +61,21 @@ function getPostsNumber(USER_ID){
 
 export default function App({route}){
   const baseUrl =  'https://investmedia-server.glitch.me';
-  //PASSANDO USER_ID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
-  const USER_ID = route.params.USER_ID;
-  console.log("USER_ID (PERFIL) " + USER_ID);
+  //PASSANDO showProfileID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
+  const loggedUser = route.params.loggedUser;
+  const showProfileID = route.params.showProfileID;
+  const [isUserProfile, setIsUserProfile] = useState(false)
+  
   const [dadosPerfil, setDados] = useState([]);
   useEffect(() => {
+    if(loggedUser == showProfileID){
+      setIsUserProfile(true);
+    }
     let mounted = true;
-    axios.get(`${baseUrl}/infoUser/${USER_ID}`)
+    axios.get(`${baseUrl}/infoUser/${showProfileID}`)
     .then((response) => {
-      console.log(response.data)
       setDados(response.data[0])
-      console.log(dadosPerfil);
+      console.log(response.data);
   })
     return () => mounted = false;
   }, [])
@@ -83,11 +96,11 @@ export default function App({route}){
           
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <View style={{ marginRight: 30 }}>
-              <Text style={styles.textQuant}>{getPostsNumber(USER_ID)}</Text>
+              <Text style={styles.textQuant}>{getPostsNumber(showProfileID)}</Text>
               <Text style={styles.textLegenda}>Publicações</Text>
             </View>
             <View>
-              <Text style={styles.textQuant}>{getFollowersNumber(USER_ID)}</Text>
+              <Text style={styles.textQuant}>{getFollowersNumber(showProfileID)}</Text>
               <Text style={styles.textLegenda}>Seguidores</Text>
             </View>
           </View>
@@ -114,7 +127,10 @@ export default function App({route}){
             <Text style={styles.textLegenda2}>Resumo Semanal</Text>
           </View>
           <View style={{ flexDirection: "row", alignSelf: "center"}}>
-            <TouchableOpacity style={styles.pressableHeader}>
+            <TouchableOpacity 
+              disabled= {isUserProfile}//Desativa o botão seguir, se o usuário estiver no próprio perfil
+              style= {isUserProfile? styles.pressableHeaderDisabled : styles.pressableHeader}
+              >
               <Text
                 style={{
                   textAlign: "center",
@@ -331,6 +347,15 @@ const styles = StyleSheet.create({
   },
   pressableHeader: {
     backgroundColor: "#c6b347",
+    height: 28,
+    width: 83,
+    borderRadius: 10,
+    alignContent: "center",
+    marginTop: 10,
+    marginRight: 10,
+  },
+  pressableHeaderDisabled: {
+    backgroundColor: 'gray',
     height: 28,
     width: 83,
     borderRadius: 10,
