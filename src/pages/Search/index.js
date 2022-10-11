@@ -47,7 +47,7 @@ const App = () => {
 
             setDelayTimeout(setTimeout(() => {
               setCanSearch(true);
-            }, 750));
+            }, 250));
           }}
         />
       </View>
