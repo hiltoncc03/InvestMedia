@@ -6,13 +6,12 @@ const ListItem = ({ data }) => {
   const navigation = useNavigation()
   return (
     <TouchableOpacity style={styles.item} onPress={() =>{
-        console.log(data);
         navigation.navigate('TabBar', {'USER_ID' : data.id});
       }}>
       <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />
       <View style={styles.itemInfo}>
-        <Text style={styles.itemP1}>{data.nome}</Text>
-        <Text style={styles.itemP2}>{data.email}</Text>
+        <Text style={styles.itemP1}>{data.userName}</Text>
+        <Text style={styles.itemP2}>{data.nome}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import { useState, useEffect } from 'react';
 import {
   SafeAreaView,
@@ -6,39 +7,33 @@ import {
   TextInput,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from '../../components/ListItem';
-
-import results from '../../../results';
 
 const App = () => {
   const [searchText, setSearchText] = useState('');
-  const [list, setList] = useState(results);
-
-  useEffect(() => {
-    if (searchText === '') {
-      setList(results);
-    } else {
-      setList(
-        results.filter(
-          (item) =>
-            item.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-        )
-      );
-    }
-  }, [searchText]);
-
-  const handleOrderClick = () => {
-    let newList = [...results];
-
-    newList.sort((a, b) => (a.nome > b.nome ? 1 : b.nome > a.nome ? -1 : 0));
-
-    setList(newList);
-  };
-
+  const baseUrl =  'https://investmedia-server.glitch.me/searchUser';
+  const [list, setList] = useState(baseUrl);
+  axios.get(`${baseUrl}/${searchText}`).then(function(response){
+    console.log('Success: ', response.data);    
+    useEffect(() => {
+      if (searchText === '') {
+        setList(response.data);
+      } else {
+        setList(
+          response.filter(item => {
+            item.data.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+          })
+          );
+        }
+      }, [searchText]);
+        
+      }).catch(function(error){
+        console.log('Error: ', response.data)
+      });
+  
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchArea}>
@@ -48,14 +43,7 @@ const App = () => {
           placeholderTextColor="#888"
           value={searchText}
           onChangeText={(t) => setSearchText(t)}
-        />
-        <TouchableOpacity onPress={handleOrderClick} style={styles.orderButton}>
-          <MaterialCommunityIcons
-            name="order-alphabetical-ascending"
-            size={32}
-            color="#CFB43C"
           />
-        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -63,7 +51,7 @@ const App = () => {
         style={styles.list}
         renderItem={({ item }) => <ListItem data={item} />}
         keyExtractor={(item) => item.id}
-      />
+        />
 
       <StatusBar style='light' />
     </SafeAreaView>
@@ -94,12 +82,11 @@ const styles = StyleSheet.create({
   },
   orderButton: {
     width: 32,
-    marginTop: 20,
+    marginTop: 15,
     marginRight: 30,
   },
   list: {
     flex: 1,
-    color: "red",
   },
 });
 
