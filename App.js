@@ -4,7 +4,6 @@ import Routes from './src/routes';
 import Login from './src/pages/login';
 import Splash from './src/pages/splash';
 import Register from './src/pages/register'
-import Profile from './src/pages/Profile'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator()
 
@@ -18,7 +17,6 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="TabBar" component={Routes} />
-        <Stack.Screen name="Profile" component= {Profile}/>
       </Stack.Navigator>
     {/*<Routes/>*/}
     </NavigationContainer>

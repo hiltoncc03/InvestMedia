@@ -10,7 +10,7 @@ const ListItem = ({ data, loggedUser }) => {
   //console.log(data)
   return (
     <TouchableOpacity style={styles.item} onPress={() =>{
-        navigation.navigate('Profile', {'showProfileID' : data.USER_ID, 'loggedUser': loggedUser});
+        navigation.navigate('Profile2', {'showProfileID' : data.USER_ID, 'loggedUser': loggedUser});
       }}>
       <View style = {styles.container}>
         <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />
@@ -23,6 +23,8 @@ const ListItem = ({ data, loggedUser }) => {
     
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {

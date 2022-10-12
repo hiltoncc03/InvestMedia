@@ -10,8 +10,12 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import ListItem from '../../components/ListItem';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Profile from '../Profile'
+const SearchStack = createNativeStackNavigator()
 
-const App = ({route}) => {
+function Search({route}){
   const loggedUser = route.params.loggedUser
   const [searchText, setSearchText] = useState('');
   const [canSearch, setCanSearch] = useState(true);
@@ -52,6 +56,7 @@ const App = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      
       <View style={styles.searchArea}>
         <TextInput
           style={styles.input}
@@ -79,6 +84,17 @@ const App = ({route}) => {
     </SafeAreaView>
   );
 };
+
+export default function App({route}) {
+  return (
+    <NavigationContainer independent={true}>
+      <SearchStack.Navigator screenOptions={{ headerShown: false }}>
+      <SearchStack.Screen name="Search" component={Search} initialParams={route}/>
+      <SearchStack.Screen name="Profile2" component={Profile} />
+    </SearchStack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -110,5 +126,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default App;
