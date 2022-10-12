@@ -11,28 +11,44 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import ListItem from '../../components/ListItem';
 
-const App = () => {
+const App = ({route}) => {
+  const loggedUser = route.params.loggedUser
   const [searchText, setSearchText] = useState('');
   const [canSearch, setCanSearch] = useState(true);
   const [delayTimeout, setDelayTimeout] = useState(() => { })
   const baseUrl = 'https://investmedia-server.glitch.me/searchUser';
   const [list, setList] = useState([]);
 
-  useEffect(function () {
-    if (canSearch) {
-      setCanSearch(false)
-      axios.get(`${baseUrl}/${searchText}`)
-        .then((response) => {
-          console.log('Success: ', response.data);
-          setList(
-            response.data
-          );
+  // useEffect(function () {
+  //   if (canSearch) {
+  //     setCanSearch(false)
+  //     axios.get(`${baseUrl}/${searchText}`)
+  //       .then((response) => {
+  //         console.log('Success: ', response.data);
+  //         setList(
+  //           response.data
+  //         );
 
-        }).catch(function (error) {
-          console.log('Error: ', error)
-        })
-    }
-  }, [searchText, canSearch])
+  //       }).catch(function (error) {
+  //         console.log('Error: ', error)
+  //       })
+  //   }
+  // }, [searchText, canSearch])
+
+  useEffect(function () {
+    axios.get(`${baseUrl}/${searchText}`)
+      .then((response) => {
+        //console.log('Success: ', response.data);
+        setList(
+          response.data
+        );
+
+      })
+      .catch(function (error) {
+        console.log('Error: ', error)
+      })
+    
+}, [searchText])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,9 +61,9 @@ const App = () => {
           onChangeText={(t) => {
             setSearchText(t);
 
-            setDelayTimeout(setTimeout(() => {
-              setCanSearch(true);
-            }, 250));
+            // setDelayTimeout(setTimeout(() => {
+            //   setCanSearch(true);
+            // }, 250));
           }}
         />
       </View>
@@ -55,8 +71,8 @@ const App = () => {
       <FlatList
         data={list}
         style={styles.list}
-        renderItem={({ item }) => <ListItem data={item} />}
-        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ListItem data={item} loggedUser = {loggedUser}/>}
+        keyExtractor={(item) => item.USER_ID}
       />
 
       <StatusBar style='light' />

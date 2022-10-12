@@ -56,6 +56,7 @@ export default function Login() {
                 //Chama a tela TabBar, passando o USER_ID como parâmetro
             })
             .catch(function (error){  //Verifica se existe o email logado está cadastrado no banco de dados
+                console.log(error)
                 console.log("Usuario não cadastrado")
                 console.log(transformajson);
                 axios.post(`https://investmedia-server.glitch.me/infoUser`, 

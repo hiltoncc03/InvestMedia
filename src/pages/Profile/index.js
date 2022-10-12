@@ -15,30 +15,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 const Stack = createNativeStackNavigator();
 
-
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={require("../../../assets/InvestMediaNomePreto.png")}
-    />
-  );
-};
-//RETORNA A INSTRUÇÃO DE RENDERIZAÇÃO DO PRESSABLE
-function isPressableDisabled(isUserProfile){
-  if(isUserProfile){
-    return 'pressableHeaderDisabled'
-  }
-  else{
-    return 'pressableHeader'
-  }
-}
-
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
-function getFollowersNumber(showProfileID){
+function getFollowersNumber(showProfileID,loggedUser){
   const [folowersNumber, setFolowersNumber] = useState([]);
   axios.get(`https://investmedia-server.glitch.me/getFolowersNumber/${showProfileID}`)
   .then((response) => {
@@ -63,13 +44,13 @@ export default function App({route}){
   const baseUrl =  'https://investmedia-server.glitch.me';
   //PASSANDO showProfileID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
   const loggedUser = route.params.loggedUser;
-  const showProfileID = route.params.showProfileID;
+  const [showProfileID, setShowProfileID] = useState(route.params.showProfileID);
   const [isUserProfile, setIsUserProfile] = useState(false)
-  
   const [dadosPerfil, setDados] = useState([]);
   useEffect(() => {
-    if(loggedUser == showProfileID){
+    if(loggedUser == showProfileID){ //Confere se o perfil a ser visualizado é o perfil do usuário utilizador
       setIsUserProfile(true);
+      setShowProfileID(loggedUser);
     }
     let mounted = true;
     axios.get(`${baseUrl}/infoUser/${showProfileID}`)

@@ -2,13 +2,15 @@ import React from 'react';
 import { TouchableOpacity, View, Image, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const ListItem = ({ data }) => {
+const ListItem = ({ data, loggedUser }) => {
   const navigation = useNavigation()
   console.log("listItem")
-  console.log(data)
+  console.log(loggedUser)
+  //console.log('checkpoint')
+  //console.log(data)
   return (
     <TouchableOpacity style={styles.item} onPress={() =>{
-        navigation.navigate('TabBar', {'USER_ID' : data.id});
+        navigation.navigate('Profile', {'showProfileID' : data.USER_ID, 'loggedUser': loggedUser});
       }}>
       <View style = {styles.container}>
         <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     flexDirection: 'row',
     flex: 1,
-    borderRadius: 10
+    borderRadius: 10,
   },
   item: {
     flexDirection: 'row',
@@ -46,18 +48,21 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   itemInfo: {
-    marginLeft: 13,
+    marginLeft: 8,
     backgroundColor: 'fff',
-    padding: 5
+    padding: 5,
+    textAlignVertical: 'center'
   },
   itemP1: {
-    fontSize: 22,
+    fontSize: 18,
     color: '#0C0C4B',
-    marginBottom: 5
+    marginBottom: 0,
+    marginTop: 6
   },
   itemP2: {
-    fontSize: 15,
-    color: '#0C0C4B',
+    fontSize: 14,
+    color: "#848484",
+
   },
 });
 
