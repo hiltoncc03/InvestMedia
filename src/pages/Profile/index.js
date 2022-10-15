@@ -52,15 +52,24 @@ export default function App({route}){
       setIsUserProfile(true);
       setShowProfileID(loggedUser);
     }
-    let mounted = true;
-    axios.get(`${baseUrl}/infoUser/${showProfileID}`)
-    .then((response) => {
-      setDados(response.data[0])
-      console.log(response.data);
-  })
-    return () => mounted = false;
-  }, [])
+    //let mounted = true;
+    console.log("\n\n\n\n----------------- FAZENDO REQUISIÇÂO ----------------")
+    axios
+      .get(`${baseUrl}/infoUser/${showProfileID}`)
+      .then((response) => {
+        setDados(response.data[0]);
+      })
+      .catch((error) => console.log(error.data));
+    //return () => mounted = false;
+  }, [showProfileID])
   
+  console.log("Usuário conectado:");
+  console.log(loggedUser)
+  console.log("Usuário mostrado");
+  console.log(showProfileID)
+  console.log("Data");
+  console.log(dadosPerfil);
+
   return (
   <ScrollView>
     <View style={styles.background}>

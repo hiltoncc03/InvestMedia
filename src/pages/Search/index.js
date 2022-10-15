@@ -15,11 +15,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from '../Profile'
 const SearchStack = createNativeStackNavigator()
 
-function Search({route}){
+function Search({ route }) {
   const loggedUser = route.params.loggedUser
+  { console.log("---------") }
+  { console.log(loggedUser) }
   const [searchText, setSearchText] = useState('');
-  const [canSearch, setCanSearch] = useState(true);
-  const [delayTimeout, setDelayTimeout] = useState(() => { })
+  // const [canSearch, setCanSearch] = useState(true);
+  // const [delayTimeout, setDelayTimeout] = useState(() => { })
   const baseUrl = 'https://investmedia-server.glitch.me/searchUser';
   const [list, setList] = useState([]);
 
@@ -51,12 +53,12 @@ function Search({route}){
       .catch(function (error) {
         console.log('Error: ', error)
       })
-    
-}, [searchText])
+
+  }, [searchText])
 
   return (
     <SafeAreaView style={styles.container}>
-      
+
       <View style={styles.searchArea}>
         <TextInput
           style={styles.input}
@@ -76,7 +78,7 @@ function Search({route}){
       <FlatList
         data={list}
         style={styles.list}
-        renderItem={({ item }) => <ListItem data={item} loggedUser = {loggedUser}/>}
+        renderItem={({ item }) => <ListItem data={item} loggedUser={loggedUser} />}
         keyExtractor={(item) => item.USER_ID}
       />
 
@@ -85,13 +87,14 @@ function Search({route}){
   );
 };
 
-export default function App({route}) {
+export default function App({ route }) {
+  const loggedUser = route.params.loggedUser
   return (
     <NavigationContainer independent={true}>
-      <SearchStack.Navigator screenOptions={{ headerShown: false }}>
-      <SearchStack.Screen name="Search" component={Search} initialParams={route}/>
-      <SearchStack.Screen name="Profile2" component={Profile} />
-    </SearchStack.Navigator>
+      <SearchStack.Navigator screenOptions={{ headerShown: false, animationTypeForReplace: 'push' }} >
+        <SearchStack.Screen name="Search" component={Search} initialParams={{loggedUser: loggedUser}} />
+        <SearchStack.Screen name="Profile2" component={Profile} />
+      </SearchStack.Navigator>
     </NavigationContainer>
   );
 }
