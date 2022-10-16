@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   searchArea: {
-    marginLeft: 5,
     flexDirection: 'row',
     alignItems: 'center',
   },
