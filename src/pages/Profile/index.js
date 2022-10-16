@@ -14,10 +14,12 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
+//import { response } from "express";
 const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+const baseUrl = "https://investmedia-server.glitch.me";
 
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
 function getFollowersNumber(showProfileID, loggedUser) {
@@ -46,13 +48,7 @@ function getPostsNumber(showProfileID) {
 }
 
 export default function App({ route }) {
-  const isFocused = useIsFocused();
-
-  return isFocused ? Profile(route) : <Text></Text>;
-}
-
-function Profile(route) {
-  const baseUrl = "https://investmedia-server.glitch.me";
+  
   //PASSANDO showProfileID DE "Login.js" PARA "Routes.js" E PARA "Index.js" (PERFIL)
   const loggedUser = route.params.loggedUser;
   const [showProfileID, setShowProfileID] = useState(
@@ -60,6 +56,8 @@ function Profile(route) {
   );
   const [isUserProfile, setIsUserProfile] = useState(false);
   const [dadosPerfil, setDados] = useState([]);
+  const [posts, setPosts] = useState([]);
+  //Faz a requisição das informações do usuário
   useEffect(() => {
     if (loggedUser === showProfileID) {
       //Confere se o perfil a ser visualizado é o perfil do usuário utilizador
@@ -79,6 +77,20 @@ function Profile(route) {
       .catch((error) => console.log(error.data));
     //return () => mounted = false;
   }, [showProfileID]);
+
+  //faz a requisição das informações de publicação do usuário
+  useEffect(() => {
+    axios
+      //.get(`${baseUrl}/userPub/${showProfileID}`)
+      .get('https://jsonplaceholder.typicode.com/albums/1/photos')// api fake JsonPlaceHolder
+      .then((response) => {
+        setPosts(response.data);
+        console.log("\n\n\n\n---------------------PUBLICAÇÔES--------------------");
+        console.log(posts);
+        console.log("---------------------PUBLICAÇÔES--------------------");
+      })
+      .catch((error) => console.log(error.data));
+  },[])
 
   console.log("Usuário conectado:");
   console.log(loggedUser);
@@ -233,7 +245,25 @@ function Profile(route) {
               alignSelf: "center",
             }}
           ></View>
-          <View style={styles.linhaFeed}>
+          <FlatList
+            numColumns={3}
+            horizontal={false}
+            // data={(posts.url =! null ? posts.url : null)}
+            data={posts.reverse()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[styles.publicacaoFeed]}
+                onPress={() => (console.log("Publicação " + item.id))}
+              >
+                {console.log(item.url)}
+                <Image
+                  source={{ uri: item.url }}
+                  style={styles.publicacaoFeed}
+                ></Image>
+              </TouchableOpacity>
+            )}
+          />
+          {/* <View style={styles.linhaFeed}>
             <Image
               source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
               style={styles.publicacaoFeed}
@@ -281,7 +311,7 @@ function Profile(route) {
               source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
               style={styles.publicacaoFeed}
             ></Image>
-          </View>
+          </View> */}
         </View>
       </View>
     </ScrollView>
