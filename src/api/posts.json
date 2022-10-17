@@ -1,0 +1,147 @@
+[
+    {
+      "id": 1,
+      "user": {
+        "nickname": "Juulia",
+        "account": "juliapietra",
+        "picture":
+          "https://images.unsplash.com/photo-1570500091894-635e2730c151?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80"
+      },
+      "tweet": {
+        "media":
+          "https://images.unsplash.com/photo-1555482155-68cd8bccd32c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1655&q=80",
+        "commentCount": 17,
+        "shareCount": 4,
+        "likeCount": 43234
+      }
+    },
+    {
+      "id": 2,
+      "user": {
+        "nickname": "Paulo silva 🤠",
+        "account": "paulo_ofc",
+        "picture":
+          "https://images.unsplash.com/photo-1571335272625-c06041f68736?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+      },
+      "tweet": {
+        "media":
+          "https://images.unsplash.com/photo-1568306985896-f94fc046fb73?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+        "text": "Devemos pensar de forma critica à respeito dos fatos que nos circundam",
+        "commentCount": 2,
+        "shareCount": 7,
+        "likeCount": 14
+      }
+    },
+    {
+      "id": 4,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 5,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 6,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 7,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 8,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 9,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    },
+    {
+      "id": 10,
+      "user": {
+        "nickname": "Thereallolzeiro",
+        "account": "midorfeed",
+        "picture":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdPgjEB2-v9bIasi8TzmwOyl5266CezivaJ1qlxfliHMdnDBZ7"
+      },
+      "tweet": {
+        "media": null,
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at urna non lacus rhoncus dictum. Suspendisse accumsan risus vel dolor volutpat, mollis gravida ipsum fringilla. Phasellus suscipit ligula arcu, vel aliquet lectus dapibus sed. Donec vitae justo id odio euismod euismod et sed augue.",
+        "commentCount": 12,
+        "shareCount": 10,
+        "likeCount": 26
+      }
+    }
+  ]
