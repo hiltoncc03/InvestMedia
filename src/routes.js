@@ -63,7 +63,7 @@ export default function Routes({navigation, route}){
                 initialParams={{loggedUser: loggedUser}}
                 options={{
                     tabBarIcon:({size,color}) => (
-                        <Entypo name="notification" size={size} color={color} />
+                        <Entypo name="line-graph" size={size} color={color} />
                     ),
                     tabBarShowLabel: false
                 }}
