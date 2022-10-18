@@ -93,7 +93,7 @@ export default function App({ route }) {
     <NavigationContainer independent={true}>
       <SearchStack.Navigator screenOptions={{ headerShown: false, animationTypeForReplace: 'push' }} >
         <SearchStack.Screen name="Search" component={Search} initialParams={{loggedUser: loggedUser}} />
-        <SearchStack.Screen name="Profile2" component={Profile} />
+        <SearchStack.Screen name="Profile" component={Profile} />
       </SearchStack.Navigator>
     </NavigationContainer>
   );

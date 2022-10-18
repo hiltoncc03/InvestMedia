@@ -29,7 +29,7 @@ function getFollowersNumber(showProfileID, loggedUser) {
       `https://investmedia-server.glitch.me/getFolowersNumber/${showProfileID}`
     )
     .then((response) => {
-      console.log("func - " + response.data[0]);
+      console.log(response.data[0]);
       setFolowersNumber(response.data[0].folowersNumber);
     });
   return folowersNumber;
@@ -41,7 +41,7 @@ function getPostsNumber(showProfileID) {
   axios
     .get(`https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`)
     .then((response) => {
-      console.log("func - " + response.data[0]);
+      console.log(response.data[0]);
       setPostsNumber(response.data[0].postsNumber);
     });
   return postsNumber;
@@ -86,11 +86,11 @@ export default function App({ route }) {
       .then((response) => {
         setPosts(response.data);
         console.log("\n\n\n\n---------------------PUBLICAÇÔES--------------------");
-        console.log(posts);
-        console.log("---------------------PUBLICAÇÔES--------------------");
+        // console.log(posts);
+        // console.log("---------------------PUBLICAÇÔES--------------------");
       })
       .catch((error) => console.log(error.data));
-  },[])
+  },[showProfileID])
 
   console.log("Usuário conectado:");
   console.log(loggedUser);
@@ -253,7 +253,7 @@ export default function App({ route }) {
                 style={[styles.publicacaoFeed]}
                 onPress={() => (console.log("Publicação " + item.id))}
               >
-                {console.log(item.url)}
+                {/* {console.log(item.url)} */}
                 <Image
                   source={{ uri: item.url }}
                   style={styles.publicacaoFeed}
@@ -273,9 +273,9 @@ const styles = StyleSheet.create({
   publicacaoFeed: {
     width: (windowWidth - 2160 / 100) / 3 ,
     height: (windowWidth - 2160 / 100) / 3,
-    marginRight:1,
-    marginLeft:1,
-    marginBottom:2
+    marginRight:3,
+    marginLeft:0,
+    marginBottom:3
   },
   photoPerfilSize: {
     width: 10,
