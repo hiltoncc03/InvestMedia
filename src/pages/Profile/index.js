@@ -100,6 +100,7 @@ export default function App({ route }) {
   console.log(dadosPerfil);
 
   return (
+    //AJUSTAR ALINHAMENTO DAS PUBLICAÇÕES
     <View style= {{alignItems: 'center',marginLeft: '2%', marginRight: "2%"}}>
           <FlatList
             showsVerticalScrollIndicator={false}
