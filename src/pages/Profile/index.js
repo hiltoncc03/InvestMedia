@@ -100,8 +100,15 @@ export default function App({ route }) {
   console.log(dadosPerfil);
 
   return (
-    <ScrollView>
-      <View style={styles.background}>
+    <View style= {{alignItems: 'center',marginLeft: '2%', marginRight: "2%"}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            numColumns={3}
+            horizontal={false}
+            //contentContainerStyle={{alignSelf: 'center'}}
+            //ListEmptyComponent= { }
+            ListHeaderComponent={
+              <View >
         {/*HEADER DO PERFIL*/}
         <View style={styles.headerPerfil}>
           <View style={styles.headerPerfilEsquerdo}>
@@ -235,19 +242,9 @@ export default function App({ route }) {
               />
             </Pressable>
           </View>
-          <View
-            style={{
-              backgroundColor: "#eaeaea",
-              width: 380,
-              height: 2,
-              borderRadius: 10,
-              marginTop: 2,
-              alignSelf: "center",
-            }}
-          ></View>
-          <FlatList
-            numColumns={3}
-            horizontal={false}
+          </View>
+              </View>
+            }
             // data={(posts.url =! null ? posts.url : null)}
             data={posts.reverse()}
             renderItem={({ item }) => (
@@ -263,58 +260,7 @@ export default function App({ route }) {
               </TouchableOpacity>
             )}
           />
-          {/* <View style={styles.linhaFeed}>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-          </View>
-          <View style={styles.linhaFeed}>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-          </View>
-          <View style={styles.linhaFeed}>
-            <Pressable
-              style={({ pressed }) => [
-                { tintColor: pressed ? "#D4D4D4" : "white" },
-                styles.publicacaoFeed,
-              ]}
-            >
-              <Image
-                source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-                style={styles.publicacaoFeed}
-              ></Image>
-            </Pressable>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-            <Image
-              source={require("../../../assets/images/photosTeste/photoUser.jpeg")}
-              style={styles.publicacaoFeed}
-            ></Image>
-          </View> */}
-        </View>
-      </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -324,8 +270,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   publicacaoFeed: {
-    width: (windowWidth - 2160 / 100) / 3,
+    width: (windowWidth - 2160 / 100) / 3 ,
     height: (windowWidth - 2160 / 100) / 3,
+    marginRight:1,
+    marginLeft:1,
+    marginBottom:2
   },
   photoPerfilSize: {
     width: 10,
@@ -345,6 +294,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 5,
     marginBottom: 10,
+    marginRight: 10
   },
   headerPerfilDireito: {
     width: 200,
@@ -359,10 +309,10 @@ const styles = StyleSheet.create({
   },
   headerPerfil: {
     flex: 1,
-    marginLeft: "2%",
-    marginRight: "2%",
+    //marginLeft: "2%",
+    //marginRight: "2%",
     marginTop: "1.9%",
-    marginBottom: "4.9%",
+    marginBottom: 10,
     backgroundColor: "#ffffff",
     borderRadius: 20,
     height: 200,
@@ -371,11 +321,11 @@ const styles = StyleSheet.create({
   },
   publicacoesPerfil: {
     flex: 1,
-    marginLeft: "2%",
-    marginRight: "2%",
-    marginBottom: "4.9%",
+    //marginLeft: "2%",
+    //marginRight: "2%",
     backgroundColor: "#ffffff",
-    borderRadius: 20,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20
   },
   textUser: {
     marginTop: 8,
