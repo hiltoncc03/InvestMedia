@@ -59,29 +59,33 @@ export default function Login() {
                 console.log(error)
                 console.log("Usuario não cadastrado")
                 console.log(transformajson);
-                axios.post(`https://investmedia-server.glitch.me/infoUser`, 
-                    {
-                        nome: transformajson.name, 
-                        email: transformajson.email, 
-                        dataEntrada: formatDate(new Date().toDateString()),//Obtém a data atual pelo método new Date().toDateString() e converte para o formato YYYY-MM-DD pelo método formatDate()
-                        // Registra novo usuário no Banco de dados, por meio das informações obtidas pelo oAuth
-                        verificado: 1,
-                        fotoPerfil: preparaFotoPerfil(transformajson.picture)
-                        // Retira os ultimos 6 caracteres da string que contém o link da foto de perfil, que são responsáveis por limitar a qualidade da foto
-                    }
-                )
-                .then(() => {
-                    console.log("Usuário cadastrado, terminando o registro")
-                    axios.get(`https://investmedia-server.glitch.me/getId/${transformajson.email}`)
-                    .then((response) => {
-                        console.log("Redirecionando para register.js")
-                        navigation.navigate('Register', {'USER_ID' : response.data[0].USER_ID});
+                axios
+                  .post(`192.168.0.14:80/infoUser/53`, {
+                    nome: transformajson.name,
+                    email: transformajson.email,
+                    dataEntrada: formatDate(new Date().toDateString()), //Obtém a data atual pelo método new Date().toDateString() e converte para o formato YYYY-MM-DD pelo método formatDate()
+                    // Registra novo usuário no Banco de dados, por meio das informações obtidas pelo oAuth
+                    verificado: 1,
+                    fotoPerfil: preparaFotoPerfil(transformajson.picture),
+                    // Retira os ultimos 6 caracteres da string que contém o link da foto de perfil, que são responsáveis por limitar a qualidade da foto
+                  })
+                  .then(() => {
+                    console.log("Usuário cadastrado, terminando o registro");
+                    axios
+                      .get(
+                        `https://investmedia-server.glitch.me/getId/${transformajson.email}`
+                      )
+                      .then((response) => {
+                        console.log("Redirecionando para register.js");
+                        navigation.navigate("Register", {
+                          USER_ID: response.data[0].USER_ID,
+                        });
                         //Chama a tela de Registro, passando o USER_ID como parâmetro
-                    })
-                })
-                .catch(err => 
+                      });
+                  })
+                  .catch((err) =>
                     console.log("Erro --> " + JSON.stringify(err.response.data))
-                )
+                  );
             })
         }   
         

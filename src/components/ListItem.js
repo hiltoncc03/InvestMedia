@@ -10,7 +10,13 @@ const ListItem = ({ data, loggedUser }) => {
   console.log(data)
   return (
     <TouchableOpacity style={styles.item} onPress={() =>{
-        navigation.navigate('Profile', {showProfileID : data.USER_ID, loggedUser: loggedUser});
+      //adiciona delay no acesso do perfil  
+        setTimeout(() => {navigation.navigate("Profile", {
+          showProfileID: data.USER_ID,
+          loggedUser: loggedUser,
+        });
+      }, 1000)
+        
       }}>
       <View style = {styles.container}>
         <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />

@@ -22,7 +22,7 @@ function Search({ route }) {
   const [searchText, setSearchText] = useState('');
   // const [canSearch, setCanSearch] = useState(true);
   // const [delayTimeout, setDelayTimeout] = useState(() => { })
-  const baseUrl = 'https://investmedia-server.glitch.me/searchUser';
+  const baseUrl = "http://192.168.0.14:80/searchUser";
   const [list, setList] = useState([]);
 
   // useEffect(function () {
