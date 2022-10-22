@@ -10,8 +10,13 @@ const ListItem = ({ data, loggedUser }) => {
   console.log(data)
   return (
     <TouchableOpacity style={styles.item} onPress={() =>{
-        navigation.navigate('Profile2', {showProfileID : data.USER_ID, loggedUser: loggedUser});
-      }}>
+        navigation.setOptions({
+          headerShown: true,
+          statusBarColor: "#CFB43C",
+          headerTitle: "",
+        });
+      navigation.navigate('Profile2', {showProfileID : data.USER_ID, loggedUser: loggedUser})
+        }}>
       <View style = {styles.container}>
         <Image source={{ uri: data.fotoPerfil }} style={styles.itemPhoto} />
         <View style={styles.itemInfo}>
