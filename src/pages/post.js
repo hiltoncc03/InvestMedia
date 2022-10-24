@@ -14,21 +14,14 @@ import axios from "axios";
 
 export default function Post({ route }) {
   const navigation = useNavigation();
-  const userInfo = route.params.userInfo;
+  const userInfo = route.params.userInfo[0]
   console.log(userInfo);
   const [userName, setUsername] = useState("");
   const [userBio, setUserBio] = useState("");
 
   return (
     <View style={styles.screenView}>
-      <TextInput
-        style={styles.inputUser}
-        value={userName}
-        placeholder={"Escolha seu Username:"}
-        onChangeText={(text) => setUsername(text)}
-        autoCapitalize={"none"}
-        selectionColor="#CFB43C"
-      />
+      <Image style={styles.fotoPost} source={{uri: userInfo.fotoPerfil}}></Image>
       {console.log(userName)}
       <TextInput
         style={styles.inputBio}
@@ -55,6 +48,13 @@ export default function Post({ route }) {
 }
 
 const styles = StyleSheet.create({
+  fotoPost: {
+    borderRadius: 999,
+    height: 30,
+    width: 30,
+    alignSelf: "center",
+    marginTop: "4%",
+  },
   inputUser: {
     height: 40,
     width: 350,
@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
   },
   screenView: {
     flex: 1,
-    alignContent: "center",
+    alignContent: "flex-start",
     alignItems: "center",
+    flexDirection: 'row'
   },
   button: {
     borderRadius: 100,
