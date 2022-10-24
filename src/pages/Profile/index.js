@@ -28,29 +28,28 @@ const getUserInfo = async (loggedUser) => {
 };
 
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
-function getFollowersNumber(showProfileID, loggedUser) {
+function getFollowersNumber(showProfileID) {
   const [folowersNumber, setFolowersNumber] = useState([]);
-  axios
-    .get(
-      `https://investmedia-server.glitch.me/getFolowersNumber/${showProfileID}`
-    )
+  if(showProfileID){
+    axios.get(`https://investmedia-server.glitch.me/getFollowersNumber/${showProfileID}`)
     .then((response) => {
-      console.log(response.data[0]);
       setFolowersNumber(response.data[0].folowersNumber);
     });
-  return folowersNumber;
+    return folowersNumber;
+  }
 }
 
 //RETORNA O NUMERO DE PUBLICAÇÕES DO USUÁRIO
 function getPostsNumber(showProfileID) {
-  const [postsNumber, setPostsNumber] = useState([]);
-  axios
-    .get(`https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`)
+  
+  if(showProfileID){
+    const [postsNumber, setPostsNumber] = useState([]);
+    axios.get(`https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`)
     .then((response) => {
-      console.log(response.data[0]);
       setPostsNumber(response.data[0].postsNumber);
     });
-  return postsNumber;
+    return postsNumber;
+}
 }
 
 export default function App({ route }) {
@@ -64,23 +63,23 @@ export default function App({ route }) {
   const [posts, setPosts] = useState([]);
   //Faz a requisição das informações do usuário
   useEffect(() => {
-    if (loggedUser === showProfileID) {
+    
+      if (loggedUser === showProfileID) {
       //Confere se o perfil a ser visualizado é o perfil do usuário utilizador
       setIsUserProfile(true);
       setShowProfileID(loggedUser);
     }
-    //let mounted = true;
-
-    axios
+    if (showProfileID) {
+      axios
       .get(`${baseUrl}/infoUser/${showProfileID}`)
       .then((response) => {
-        console.log(
-          "\n\n\n\n----------------- FAZENDO REQUISIÇÂO ----------------"
-        );
-        setDados(response.data[0]);
-      })
-      .catch((error) => console.log(error.data));
-    //return () => mounted = false;
+      console.log(
+        "\n\n\n\n----------------- FAZENDO REQUISIÇÂO ----------------"
+      );
+      setDados(response.data[0]);
+    })
+    .catch((error) => console.log(error.data));
+}
   }, [showProfileID]);
 
   //faz a requisição das informações de publicação do usuário
@@ -93,8 +92,6 @@ export default function App({ route }) {
         console.log(
           "\n\n\n\n---------------------PUBLICAÇÔES--------------------"
         );
-        // console.log(posts);
-        // console.log("---------------------PUBLICAÇÔES--------------------");
       })
       .catch((error) => console.log(error.data));
   }, [showProfileID]);
