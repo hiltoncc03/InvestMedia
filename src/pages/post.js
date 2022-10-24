@@ -16,23 +16,27 @@ export default function Post({ route }) {
   const navigation = useNavigation();
   const userInfo = route.params.userInfo[0]
   console.log(userInfo);
-  const [userBio, setUserBio] = useState("");
+  const [text, setText] = useState("");
 
   return (
     <View style={styles.screenViewAll}>
       <View style={styles.screenView}>
-        <Image style={styles.fotoPost} source={{ uri: userInfo.fotoPerfil }}></Image>
-        <TextInput
-          style={styles.input}
-          value={userBio}
-          label= "Compartilhe algo com seus seguidores: "
-          maxLength={300}
-          multiline
-          numberOfLines={4}
-          selectionColor="#CFB43C"
-          textBreakStrategy= 'highQuality'
-          onChangeText={(text) => setUserBio(text)}
-        />
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.fotoPost} source={{ uri: userInfo.fotoPerfil }}></Image>
+          <TextInput
+            mode= "outlined"
+            style={styles.input}
+            value={text}
+            placeholder="Compartilhe algo com seus seguidores: "
+            maxLength={300}
+            multiline
+            numberOfLines={4}
+            selectionColor="#CFB43C"
+            textBreakStrategy='highQuality'
+            onChangeText={(text) => setText(text)}
+          />
+        </View>
+        <Text style={styles.textLenght}>{text.length}/{300}</Text>
       </View>
       <View style={styles.screenView2}>
         <TouchableOpacity
@@ -53,17 +57,23 @@ export default function Post({ route }) {
 const styles = StyleSheet.create({
   fotoPost: {
     borderRadius: 999,
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     marginRight: 10,
-    alignSelf: 'center'
+    marginTop: 8,
+    alignSelf: 'flex-start'
   },
+  textLenght: {
+    alignSelf: 'flex-end',
+    color: '#CFB43C'
+},
   input: {
     height: 200,
+    textAlignVertical: 'top',
     width: 370,
     backgroundColor: "#fff",
     justifyContent: "flex-start",
-    borderRadius: 10
+    borderRadius: 1000
   },
   screenViewAll: {
     flex: 1,
@@ -75,8 +85,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignContent: "flex-start",
     alignSelf: "center",
-    flexDirection: 'row',
-    backgroundColor: "blue"
+    //backgroundColor: "blue"
   },
   screenView2: {
     marginTop: 100,
