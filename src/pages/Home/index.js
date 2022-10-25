@@ -1,63 +1,18 @@
 //Renderização dos posts através da flatlist.
 
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { View, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
 import { Container, Loading } from './styles';
 import { FAB } from "@rneui/themed";
 import axios from "axios";
 import { InvestPost } from '../../components';
 import getPosts from '../../api';
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+
 
 const baseUrl = "https://investmedia-server.glitch.me";4
 
-function bottomSheet(userInfo){
-  // ref
-  const bottomSheetModalRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ['45%'], []);
-  
-  const openModal = (item) => {
-    setSelectedStockassetData(item);
-    bottomSheetModalRef.current.present();
-  }
-   
-  return(<GestureHandlerRootView style={{ flex: 1 }}>
-    <BottomSheetModalProvider>
-        <SafeAreaView>
-
-        </SafeAreaView>
-
-        <BottomSheetModal
-            ref={bottomSheetModalRef}
-            index={0}
-            snapPoints={snapPoints}
-
-        >
-
-        </BottomSheetModal>
-
-    </BottomSheetModalProvider>
-</GestureHandlerRootView>)
-}
-
-// function getUserInfo(loggedUser){
-//   const [userInfo,setUserInfo] = useState([])
-//   useEffect(()=>{
-//     axios.get(`${baseUrl}/infoUser/${loggedUser}`)
-//     .then((response) => {
-//       setTimeout( () => {
-//         setUserInfo(response.data)
-//         console.log(userInfo);
-
-//       }, 3000)
-//     })
-//   },[])
-//   return userInfo;
-// }
 
 function delay(ms) {
   return new Promise((resolve) => {
@@ -92,6 +47,7 @@ function Home({ route }) {
         const data = await getUserInfo(loggedUser)
 
         setUserInfoRequested(true)
+        if(data)
         setUserInfo(
           data
         )
@@ -99,11 +55,12 @@ function Home({ route }) {
 
       load()
     }
-  }, [userInfoRequested])
+    console.log(userInfo)
+  }, [])
 
 
 
-  console.log(userInfo)
+  //console.log(userInfo)
   const fetchPosts = useCallback(async () => {
     if (!isFetching && !error) {
       try {
@@ -157,9 +114,10 @@ function Home({ route }) {
           right: 10,
         }}
         onPress={() => {
-          //navigation.navigate("Post", { userInfo: userInfo });
-          bottomSheet(userInfo)
-        }}
+          navigation.navigate("Post", { userInfo: userInfo });
+          }
+        }
+        
       />
     </Container>
   );

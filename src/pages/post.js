@@ -10,21 +10,26 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import axios from "axios";
-import { TextInput } from 'react-native-paper';
+import { TextInput } from "react-native-paper";
+import ImagePicker from "react-native-image-crop-picker";
 
 export default function Post({ route }) {
   const navigation = useNavigation();
-  const userInfo = route.params.userInfo[0]
+  const userInfo = route.params.userInfo[0];
   console.log(userInfo);
   const [text, setText] = useState("");
+  
 
   return (
     <View style={styles.screenViewAll}>
       <View style={styles.screenView}>
-        <View style={{flexDirection: 'row'}}>
-          <Image style={styles.fotoPost} source={{ uri: userInfo.fotoPerfil }}></Image>
+        <View style={{ flexDirection: "row" }}>
+          <Image
+            style={styles.fotoPost}
+            source={{ uri: userInfo.fotoPerfil }}
+          ></Image>
           <TextInput
-            mode= "outlined"
+            mode="outlined"
             style={styles.input}
             value={text}
             placeholder="Compartilhe algo com seus seguidores: "
@@ -32,19 +37,33 @@ export default function Post({ route }) {
             multiline
             numberOfLines={4}
             selectionColor="#CFB43C"
-            textBreakStrategy='highQuality'
+            textBreakStrategy="highQuality"
             onChangeText={(text) => setText(text)}
           />
         </View>
-        <Text style={styles.textLenght}>{text.length}/{300}</Text>
+        <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
+          <TouchableOpacity onPress={() => {
+
+          }}>
+            <Text style={{ color: "#CFB43C"}}>
+              Adicionar Imagem
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.textLenght}>
+            {text.length}/{300}
+          </Text>
+        </View>
       </View>
       <View style={styles.screenView2}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => {
+          ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true,
+          }).then((image) => {
+            console.log(image);
+          });
+        }}>
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
           </Text>
@@ -61,19 +80,19 @@ const styles = StyleSheet.create({
     width: 40,
     marginRight: 10,
     marginTop: 8,
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start",
   },
   textLenght: {
-    alignSelf: 'flex-end',
-    color: '#CFB43C'
-},
+    color: "#CFB43C",
+    marginLeft: 217
+  },
   input: {
     height: 200,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
     width: 370,
     backgroundColor: "#fff",
     justifyContent: "flex-start",
-    borderRadius: 1000
+    borderRadius: 1000,
   },
   screenViewAll: {
     flex: 1,
@@ -92,13 +111,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignContent: "flex-start",
     alignSelf: "center",
-    flexDirection: 'row',
-    backgroundColor: 'red',
+    flexDirection: "row",
+    backgroundColor: "red",
   },
   button: {
     borderRadius: 100,
     backgroundColor: "#CFB43C",
     height: 37,
     width: 115,
+  },
+  button2: {
+    borderRadius: 100,
+    height: 24,
+    width: 200,
   },
 });
