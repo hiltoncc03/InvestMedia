@@ -11,15 +11,46 @@ import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import axios from "axios";
 import { TextInput } from "react-native-paper";
-import ImagePicker from "react-native-image-crop-picker";
+import * as ImagePicker from 'expo-image-picker';
+
+const pickImage = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });
+
+  console.log(result);
+
+  if (!result.cancelled) {
+    // setImage(result.uri);
+    const image = result.uri
+    console.log(image)
+    try {
+      const result2 = await axios.post("https://thumbsnap.com/api/upload",
+        {
+          media: `${image}`,
+          key: "000023b5ab5123e013ceca9a40134f6e",
+        },
+        {
+          'content-type': 'multipart/form-data',
+        }
+      );
+      console.log(result2)
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  }
+};
 
 export default function Post({ route }) {
   const navigation = useNavigation();
   const userInfo = route.params.userInfo[0];
   console.log(userInfo);
   const [text, setText] = useState("");
-  
-
+  //const [image, setImage] = useState(null);
   return (
     <View style={styles.screenViewAll}>
       <View style={styles.screenView}>
@@ -42,10 +73,10 @@ export default function Post({ route }) {
           />
         </View>
         <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-          <TouchableOpacity onPress={() => {
-
-          }}>
-            <Text style={{ color: "#CFB43C"}}>
+          <TouchableOpacity onPress={
+            pickImage
+          }>
+            <Text style={{ color: "#CFB43C" }}>
               Adicionar Imagem
             </Text>
           </TouchableOpacity>
