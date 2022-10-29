@@ -14,19 +14,22 @@ import { TextInput } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 
 function RealizaPost(loggedUser,texto,imagem){
-  // const [midia, setMidia] = useState('')
-  // if(!imagem){
-  //   setMidia(null)
-  // }
-  
-    axios.post(`https://investmedia-server.glitch.me/userPost`, {
+  const [isPosted, SetIsPosted] = useState(false);  
+  axios.post(`https://investmedia-server.glitch.me/userPost`, {
       USER_ID: loggedUser,
       texto: texto,
       midia: !imagem? null : imagem,
-    }).catch((error) =>{
-    console.log(error.response.data);
+    }).then((res) => {
+      console.log(res)
+      if(res.status===200){
+        SetIsPosted(true)
+      }
+    })
+    .catch((error) =>{
+      console.log(error.response.data);
+      var isPosted = false
   })
-    
+    return isPosted;
 }
 
 const pickImage = async () => {
@@ -67,6 +70,7 @@ export default function Post({ route }) {
   const userInfo = route.params.userInfo[0];
   console.log(userInfo);
   const [text, setText] = useState("");
+  
   //const [image, setImage] = useState(null);
   return (
     <View style={styles.screenViewAll}>
@@ -104,7 +108,7 @@ export default function Post({ route }) {
       </View>
       <View style={styles.screenView2}>
         <TouchableOpacity style={styles.button} onPress={() => {
-          RealizaPost(userInfo.USER_ID, text);
+          console.log(RealizaPost(userInfo.USER_ID, text));
         }}>
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
