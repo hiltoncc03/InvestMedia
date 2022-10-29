@@ -13,6 +13,22 @@ import axios from "axios";
 import { TextInput } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 
+function RealizaPost(loggedUser,texto,imagem){
+  // const [midia, setMidia] = useState('')
+  // if(!imagem){
+  //   setMidia(null)
+  // }
+  
+    axios.post(`https://investmedia-server.glitch.me/userPost`, {
+      USER_ID: loggedUser,
+      texto: texto,
+      midia: !imagem? null : imagem,
+    }).catch((error) =>{
+    console.log(error.response.data);
+  })
+    
+}
+
 const pickImage = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -27,20 +43,21 @@ const pickImage = async () => {
     // setImage(result.uri);
     const image = result.uri
     console.log(image)
+    const formData = new FormData()
+    formData.append(media, image)
+    //formData.append("key", "000023b5ab5123e013ceca9a40134f6e");
     try {
       const result2 = await axios.post("https://thumbsnap.com/api/upload",
+      formData,
         {
-          media: `${image}`,
-          key: "000023b5ab5123e013ceca9a40134f6e",
-        },
-        {
-          'content-type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
+          "key" : "000023b5ab5123e013ceca9a40134f6e"
         }
       );
       console.log(result2)
     }
     catch(error){
-      console.log(error.message)
+      console.log(error.request)
     }
   }
 };
@@ -87,13 +104,7 @@ export default function Post({ route }) {
       </View>
       <View style={styles.screenView2}>
         <TouchableOpacity style={styles.button} onPress={() => {
-          ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: true,
-          }).then((image) => {
-            console.log(image);
-          });
+          RealizaPost(userInfo.USER_ID, text);
         }}>
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
