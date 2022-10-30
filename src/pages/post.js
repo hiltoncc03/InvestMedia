@@ -14,22 +14,20 @@ import { TextInput } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 
 function RealizaPost(loggedUser,texto,imagem){
-  const [isPosted, SetIsPosted] = useState(false);  
   axios.post(`https://investmedia-server.glitch.me/userPost`, {
       USER_ID: loggedUser,
       texto: texto,
       midia: !imagem? null : imagem,
     }).then((res) => {
-      console.log(res)
+      //console.log(res.data)
       if(res.status===200){
-        SetIsPosted(true)
+        return true
       }
     })
     .catch((error) =>{
       console.log(error.response.data);
-      var isPosted = false
+      return false
   })
-    return isPosted;
 }
 
 const pickImage = async () => {
@@ -40,7 +38,7 @@ const pickImage = async () => {
     quality: 1,
   });
 
-  console.log(result);
+  //console.log(result);
 
   if (!result.cancelled) {
     // setImage(result.uri);
@@ -108,7 +106,10 @@ export default function Post({ route }) {
       </View>
       <View style={styles.screenView2}>
         <TouchableOpacity style={styles.button} onPress={() => {
-          console.log(RealizaPost(userInfo.USER_ID, text));
+          const isPosted = RealizaPost(userInfo.USER_ID, text)
+          if(isPosted){
+            navigation.goBack
+          }
         }}>
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
