@@ -13,26 +13,31 @@ import axios from "axios";
 import { TextInput } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 
-function RealizaPost(loggedUser,texto,imagem){
-  axios.post(`https://investmedia-server.glitch.me/userPost`, {
+async function RealizaPost(loggedUser,texto,imagem){
+  try{  
+  const res = await axios.post(`https://investmedia-server.glitch.me/userPost`, {
       USER_ID: loggedUser,
       texto: texto,
       midia: !imagem? null : imagem,
-    }).then((res) => {
-      //console.log(res.data)
-      if(res.status===200){
-        return true
-      }
     })
-    .catch((error) =>{
+    console.log(res.status)
+    if(res.status==200){
+      const posted = true
+      console.log(posted)
+      return posted
+    }
+  }
+    catch(error){
       console.log(error.response.data);
-      return false
-  })
+      const posted = false
+      return posted
+  }
 }
 
 const pickImage = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
+    base64: true,
     allowsEditing: true,
     aspect: [1, 1],
     quality: 1,
@@ -45,20 +50,26 @@ const pickImage = async () => {
     const image = result.uri
     console.log(image)
     const formData = new FormData()
-    formData.append(media, image)
-    //formData.append("key", "000023b5ab5123e013ceca9a40134f6e");
+    formData.append('media',image)
+    //formData.append('key', '000023b5ab5123e013ceca9a40134f6e');
     try {
-      const result2 = await axios.post("https://thumbsnap.com/api/upload",
-      formData,
-        {
-          "Content-Type": "multipart/form-data",
-          "key" : "000023b5ab5123e013ceca9a40134f6e"
-        }
-      );
-      console.log(result2)
+      // const result2 = await axios.post("https://thumbsnap.com/api/upload",
+      // formData
+      // );
+      // console.log(result2)
+      const result2 = await axios({
+        method: 'post',
+        url: 'https://thumbsnap.com/api/upload',
+        data: {key: '000023b5ab5123e013ceca9a40134f6e'
+              ,media: formData},
+        headers: {
+            'Content-Type': `multipart/form-data`,
+        },
+    });
+    console.log("enviado")
     }
     catch(error){
-      console.log(error.request)
+     // console.log(error)
     }
   }
 };
@@ -68,7 +79,7 @@ export default function Post({ route }) {
   const userInfo = route.params.userInfo[0];
   console.log(userInfo);
   const [text, setText] = useState("");
-  
+  const [isPosted, setIsPosted] = useState(false);
   //const [image, setImage] = useState(null);
   return (
     <View style={styles.screenViewAll}>
@@ -106,10 +117,14 @@ export default function Post({ route }) {
       </View>
       <View style={styles.screenView2}>
         <TouchableOpacity style={styles.button} onPress={() => {
-          const isPosted = RealizaPost(userInfo.USER_ID, text)
-          if(isPosted){
-            navigation.goBack
-          }
+          RealizaPost(userInfo.USER_ID, text)
+          .then((res) => {
+            setIsPosted(res)
+            if(isPosted){
+              console.log("Postado")
+              navigation.goBack()
+            }
+          })
         }}>
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
