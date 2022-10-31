@@ -51,7 +51,7 @@ const pickImage = async () => {
     console.log(image)
     const formData = new FormData()
     formData.append('media',image)
-    //formData.append('key', '000023b5ab5123e013ceca9a40134f6e');
+    formData.append('key', '000023b5ab5123e013ceca9a40134f6e');
     try {
       // const result2 = await axios.post("https://thumbsnap.com/api/upload",
       // formData
@@ -60,13 +60,12 @@ const pickImage = async () => {
       const result2 = await axios({
         method: 'post',
         url: 'https://thumbsnap.com/api/upload',
-        data: {key: '000023b5ab5123e013ceca9a40134f6e'
-              ,media: formData},
+        data: formData,
         headers: {
             'Content-Type': `multipart/form-data`,
         },
     });
-    console.log("enviado")
+    console.log(result2.data)
     }
     catch(error){
      // console.log(error)
