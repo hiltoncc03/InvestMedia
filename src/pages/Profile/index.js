@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
-//import { response } from "express";
 const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
@@ -21,35 +20,42 @@ const windowHeight = Dimensions.get("window").height;
 const baseUrl = "https://investmedia-server.glitch.me";
 
 const getUserInfo = async (loggedUser) => {
-  const response = await axios.get(`${baseUrl}/infoUser/${loggedUser}`);
-  console.log(response.data[0]);
-  await delay(3000);
-  return response.data;
+  if (showProfileID) {
+    const response = await axios.get(`${baseUrl}/infoUser/${loggedUser}`);
+    console.log(response.data[0]);
+    await delay(3000);
+    
+  }
 };
 
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
 function getFollowersNumber(showProfileID) {
   const [folowersNumber, setFolowersNumber] = useState([]);
-  if(showProfileID){
-    axios.get(`https://investmedia-server.glitch.me/getFollowersNumber/${showProfileID}`)
-    .then((response) => {
-      setFolowersNumber(response.data[0].folowersNumber);
-    });
+  if (showProfileID) {
+    axios
+      .get(
+        `https://investmedia-server.glitch.me/getFollowersNumber/${showProfileID}`
+      )
+      .then((response) => {
+        setFolowersNumber(response.data[0].folowersNumber);
+      });
     return folowersNumber;
   }
 }
 
 //RETORNA O NUMERO DE PUBLICAÇÕES DO USUÁRIO
 function getPostsNumber(showProfileID) {
-  
-  if(showProfileID){
+  if (showProfileID) {
     const [postsNumber, setPostsNumber] = useState([]);
-    axios.get(`https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`)
-    .then((response) => {
-      setPostsNumber(response.data[0].postsNumber);
-    });
+    axios
+      .get(
+        `https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`
+      )
+      .then((response) => {
+        setPostsNumber(response.data[0].postsNumber);
+      });
     return postsNumber;
-}
+  }
 }
 
 export default function App({ route }) {
@@ -63,35 +69,37 @@ export default function App({ route }) {
   const [posts, setPosts] = useState([]);
   //Faz a requisição das informações do usuário
   useEffect(() => {
-    
+    if (loggedUser) {
       if (loggedUser === showProfileID) {
-      //Confere se o perfil a ser visualizado é o perfil do usuário utilizador
-      setIsUserProfile(true);
-      setShowProfileID(loggedUser);
+        //Confere se o perfil a ser visualizado é o perfil do usuário utilizador
+        setIsUserProfile(true);
+        setShowProfileID(loggedUser);
+      }
+      if (showProfileID) {
+        axios
+          .get(`${baseUrl}/infoUser/${showProfileID}`)
+          .then((response) => {
+            console.log(
+              "\n\n\n\n----------------- FAZENDO REQUISIÇÂO ----------------"
+            );
+            setDados(response.data[0]);
+          })
+          .catch((error) => console.log(error.data));
+      }
     }
-    if (showProfileID) {
-      axios
-      .get(`${baseUrl}/infoUser/${showProfileID}`)
-      .then((response) => {
-      console.log(
-        "\n\n\n\n----------------- FAZENDO REQUISIÇÂO ----------------"
-      );
-      setDados(response.data[0]);
-    })
-    .catch((error) => console.log(error.data));
-}
   }, [showProfileID]);
 
   //faz a requisição das informações de publicação do usuário
   useEffect(() => {
     axios
       //.get(`${baseUrl}/userPub/${showProfileID}`)
-      .get("https://jsonplaceholder.typicode.com/albums/1/photos") // api fake JsonPlaceHolder
+      .get("https://investmedia-server.glitch.me/userPub/" + showProfileID)
       .then((response) => {
-        setPosts(response.data);
+        setPosts(response.data.reverse());
         console.log(
           "\n\n\n\n---------------------PUBLICAÇÔES--------------------"
         );
+        console.log(response.data);
       })
       .catch((error) => console.log(error.data));
   }, [showProfileID]);
@@ -255,15 +263,15 @@ export default function App({ route }) {
           </View>
         }
         // data={(posts.url =! null ? posts.url : null)}
-        data={posts.reverse()}
+        data={posts}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[styles.publicacaoFeed]}
-            onPress={() => console.log("Publicação " + item.id)}
+            onPress={() => console.log("Publicação " + item.POST_ID)}
           >
             {/* {console.log(item.url)} */}
             <Image
-              source={{ uri: item.url }}
+              source={{ uri: item.midia }}
               style={styles.publicacaoFeed}
             ></Image>
           </TouchableOpacity>

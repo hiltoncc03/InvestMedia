@@ -17,7 +17,7 @@ async function RealizaPost(loggedUser,texto,imagem){
   try{  
   const res = await axios.post(`https://investmedia-server.glitch.me/userPost`, {
       USER_ID: loggedUser,
-      texto: texto,
+      texto: !texto? null : texto,
       midia: !imagem? null : imagem,
     })
     console.log(res.status)
@@ -34,7 +34,13 @@ async function RealizaPost(loggedUser,texto,imagem){
   }
 }
 
-const pickImage = async () => {
+async function pickImage(){
+  const config = {
+    headers: {
+      Authorization: "Client-ID 21d0c70ff2a2f38",
+      "Content-Type": "multipart/form-data",
+    },
+  };
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
     base64: true,
@@ -47,41 +53,39 @@ const pickImage = async () => {
 
   if (!result.cancelled) {
     // setImage(result.uri);
-    const image = result.uri
+    const image = result.base64;
     console.log(image)
     const formData = new FormData()
-    formData.append('media',image)
-    formData.append('key', '000023b5ab5123e013ceca9a40134f6e');
+    formData.append('image', image);
+    //formData.append('key', '000023b5ab5123e013ceca9a40134f6e');
     try {
       // const result2 = await axios.post("https://thumbsnap.com/api/upload",
       // formData
       // );
       // console.log(result2)
-      const result2 = await axios({
-        method: 'post',
-        url: 'https://thumbsnap.com/api/upload',
-        data: formData,
-        headers: {
-            'Content-Type': `multipart/form-data`,
-        },
-    });
-    console.log(result2.data)
-    }
-    catch(error){
-     // console.log(error)
+      const result2 = await axios.post(
+        "https://api.imgur.com/3/image",
+        formData,
+        config
+      );
+      //console.log(result2.data.data.link);
+      return result2.data.data.link;
+    } catch (error) {
+      console.log(error)
     }
   }
 };
 
 export default function Post({ route }) {
+  const [postando, setPostando] = useState(false);
   const navigation = useNavigation();
   const userInfo = route.params.userInfo[0];
   console.log(userInfo);
   const [text, setText] = useState("");
-  const [isPosted, setIsPosted] = useState(false);
-  //const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   return (
     <View style={styles.screenViewAll}>
+      {console.log(image)}
       <View style={styles.screenView}>
         <View style={{ flexDirection: "row" }}>
           <Image
@@ -102,10 +106,17 @@ export default function Post({ route }) {
           />
         </View>
         <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-          <TouchableOpacity onPress={
-            pickImage
-          }>
-            <Text style={{ color: "#CFB43C" }}>
+          <TouchableOpacity
+            onPress={() => {
+              pickImage().then((res) => {
+                // console.log("???????????????");
+                // console.log(res);
+                setImage(res);
+                //console.log(image);
+              });
+            }}
+          >
+            <Text style={!image ? { color: "#CFB43C" } : { color: "green" }}>
               Adicionar Imagem
             </Text>
           </TouchableOpacity>
@@ -115,16 +126,20 @@ export default function Post({ route }) {
         </View>
       </View>
       <View style={styles.screenView2}>
-        <TouchableOpacity style={styles.button} onPress={() => {
-          RealizaPost(userInfo.USER_ID, text)
-          .then((res) => {
-            setIsPosted(res)
-            if(isPosted){
-              console.log("Postado")
-              navigation.goBack()
-            }
-          })
-        }}>
+        <TouchableOpacity
+          style={styles.button}
+          disabled={postando}
+          onPress={() => {
+            setPostando(true);
+            RealizaPost(userInfo.USER_ID, text, image).then((res) => {
+              if (res) {
+                console.log("Postado");
+                setPostando(false);
+                navigation.goBack();
+              }
+            });
+          }}
+        >
           <Text style={{ color: "white", alignSelf: "center", padding: 7 }}>
             Publicar
           </Text>
@@ -173,7 +188,6 @@ const styles = StyleSheet.create({
     alignContent: "flex-start",
     alignSelf: "center",
     flexDirection: "row",
-    backgroundColor: "red",
   },
   button: {
     borderRadius: 100,
