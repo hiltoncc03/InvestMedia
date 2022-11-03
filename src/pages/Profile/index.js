@@ -20,21 +20,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const baseUrl = "https://investmedia-server.glitch.me";
 
-const getUserInfo = async (showProfileID) => {
-  const response = await axios.get(`${baseUrl}/infoUser/${showProfileID}`);
-  console.log(`${baseUrl}/infoUser/${showProfileID}`);
-  // await delay(3000);
-  return response.data;
-};
-
-const getPosts = async (showProfileID) => {
-  const response = await axios.get(
-    "https://investmedia-server.glitch.me/userPub/" + showProfileID
-  );
-  console.log(response.data);
-  return response.data.reverse();
-};
-
+//Gera uma pausa no código (delay)
 function delay(ms) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -42,6 +28,23 @@ function delay(ms) {
     }, ms);
   });
 }
+
+//Retorna informações como nome, foto e bio
+const getUserInfo = async (showProfileID) => {
+  const response = await axios.get(`${baseUrl}/infoUser/${showProfileID}`);
+  console.log(`${baseUrl}/infoUser/${showProfileID}`);
+  // await delay(3000);
+  return response.data;
+};
+
+//Retorna uma lista dos posts do usuário
+const getPosts = async (showProfileID) => {
+  const response = await axios.get(
+    "https://investmedia-server.glitch.me/userPub/" + showProfileID
+  );
+  console.log(response.data);
+  return response.data.reverse();
+};
 
 //RETORNA O NUMERO DE SEGUIDORES DO USUÁRIO
 const getFollowersNumber = async (showProfileID) => {
