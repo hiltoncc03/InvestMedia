@@ -15,11 +15,11 @@ import * as ImagePicker from 'expo-image-picker';
 
 async function RealizaPost(loggedUser,texto,imagem){
   try{  
-  const res = await axios.post(`https://investmedia-server.glitch.me/userPost`, {
-      USER_ID: loggedUser,
-      texto: !texto? null : texto,
-      midia: !imagem? null : imagem,
-    })
+  const res = await axios.post(`https://invest-media.herokuapp.com/userPost`, {
+    USER_ID: loggedUser,
+    texto: !texto ? null : texto,
+    midia: !imagem ? null : imagem,
+  });
     console.log(res.status)
     if(res.status==200){
       const posted = true

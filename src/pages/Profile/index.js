@@ -18,18 +18,19 @@ const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const baseUrl = "https://investmedia-server.glitch.me";
+const baseUrl = "https://invest-media.herokuapp.com";
 
 const getUserInfo = async (showProfileID) => {
   const response = await axios.get(`${baseUrl}/infoUser/${showProfileID}`);
   console.log(`${baseUrl}/infoUser/${showProfileID}`);
+  console.log(response.data)
   // await delay(3000);
   return response.data;
 };
 
 const getPosts = async (showProfileID) => {
   const response = await axios.get(
-    "https://investmedia-server.glitch.me/userPub/" + showProfileID
+    `${baseUrl}/userPub/` + showProfileID
   );
   console.log(response.data);
   return response.data.reverse();
@@ -47,7 +48,7 @@ function delay(ms) {
 const getFollowersNumber = async (showProfileID) => {
   if (showProfileID) {
     const response = await axios.get(
-      `https://investmedia-server.glitch.me/getFollowersNumber/${showProfileID}`
+      `${baseUrl}/getFollowersNumber/${showProfileID}`
     );
     return response.data[0].folowersNumber;
   }
@@ -56,8 +57,8 @@ const getFollowersNumber = async (showProfileID) => {
 //RETORNA O NUMERO DE PUBLICAÇÕES DO USUÁRIO
 const getPostsNumber = async (showProfileID) => {
   if (showProfileID) {
-    response = await axios.get(
-      `https://investmedia-server.glitch.me/getPostsNumber/${showProfileID}`
+    const response = await axios.get(
+      `${baseUrl}/getPostsNumber/${showProfileID}`
     );
     return response.data[0].postsNumber;
   }
@@ -84,7 +85,7 @@ export default function App({ route }) {
         setShowProfileID(loggedUser);
       }
       if (showProfileID) {
-        if (!userInfoRequested) {
+        if (!userInfoRequested && showProfileID) {
           async function load() {
             console.log("FAZENDO REQUISIÇÕES");
             const data = await getUserInfo(showProfileID);

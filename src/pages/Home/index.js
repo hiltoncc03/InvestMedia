@@ -11,7 +11,7 @@ import getPosts from '../../api';
 
 
 
-const baseUrl = "https://investmedia-server.glitch.me";4
+const baseUrl = "https://invest-media.herokuapp.com";
 
 
 function delay(ms) {
