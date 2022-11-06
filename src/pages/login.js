@@ -28,6 +28,7 @@ function preparaFotoPerfil(fotoPerfil){
 }
 
 export default function Login() {
+    const [logging, setLogging] = useState(false)
     const navigation = useNavigation();
     //Comando utilizado através do useEffect para evitar que a animação da tela splash se repita após o usuário usar o back.
     useEffect(() => {
@@ -47,6 +48,7 @@ export default function Login() {
         const response = await AuthSession.startAsync({ authUrl });
         const TOKEN = await response.params.access_token;
         if (response.type === 'success'){ 
+            setLogging(true)
             const userdata = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${TOKEN}`);  
             const transformajson = await userdata.json()
             console.log(transformajson)
@@ -97,7 +99,7 @@ export default function Login() {
                 />
     
                 <TouchableOpacity
-
+                    disabled= {logging}
                     onPress={handleSignIn}
                     style={styles.botaogoogle}
                     activeOpacity={0.5}>
