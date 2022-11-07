@@ -76,7 +76,7 @@ export default function Register({route}) {
           />
           <Text
             onPress={() => {
-              Linking.openURL("https://reactnative.dev");
+              Linking.openURL("https://investmedia.projetoscomputacao.com.br/#secao-privacidade");
             }}
             style={{
               color: "#CFB43C",
