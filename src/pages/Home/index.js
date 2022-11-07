@@ -94,9 +94,11 @@ function Home({ route }) {
             return null;
           }
           return (
-            <Loading>
-              <ActivityIndicator size="large" color="yellow" />
-            </Loading>
+              <ActivityIndicator
+                size="large"
+                color="#c6b347"
+                style={{ flex: 1, justifyContent: "center" }}
+              />
           );
         }}
       />

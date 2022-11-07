@@ -93,10 +93,10 @@ export default function Post({ route }) {
             source={{ uri: userInfo.fotoPerfil }}
           ></Image>
           <TextInput
-            mode="outlined"
-            style={styles.input}
-            value={text}
             placeholder="Compartilhe algo com seus seguidores: "
+            style={styles.input}
+            mode="outlined"
+            value={text}
             maxLength={300}
             multiline
             numberOfLines={4}

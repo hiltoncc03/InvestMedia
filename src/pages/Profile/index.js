@@ -10,6 +10,8 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
@@ -28,6 +30,35 @@ function delay(ms) {
     }, ms);
   });
 }
+
+const seguir = async (loggedUser, showProfileID) => {
+  const response = await axios.post(
+    `https://investmedia-server.glitch.me/seguir`,
+    {
+      loggedUser: loggedUser,
+      showProfileID: showProfileID,
+    }
+  );
+  if (response.status === 200) {
+    console.log("Seguido");
+    return true;
+  }
+};
+
+//Verifica se o perfil do usuário mostrado é seguido pelo logado
+const verificaSegue = async (loggedUser, showProfileID) => {
+  const response = await axios.get(
+    `${baseUrl}/segue/${loggedUser}/${showProfileID}`
+  );
+  console.log(response.data[0]);
+  if (response.data[0] != undefined) {
+    if (response.data[0].fk_Usuario_USER_ID === loggedUser) {
+      return true;
+    }
+  } else {
+    return false;
+  }
+};
 
 //Retorna informações como nome, foto e bio
 const getUserInfo = async (showProfileID) => {
@@ -78,6 +109,19 @@ export default function App({ route }) {
   const [userInfoRequested, setUserInfoRequested] = useState(false);
   const [postsNumber, setPostsNumber] = useState(0);
   const [followersNumber, setFollowersNumber] = useState(0);
+  const [segue, setSegue] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshes, setRefreshes] = React.useState(0);
+  const [stockScreen, setStockScreen] = useState(true);
+  const [postsScreen, setPostsScreen] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setRefreshes(refreshes.valueOf() + 1);
+    console.log(refreshes.valueOf());
+    delay(2000).then(() => setRefreshing(false));
+  }, []);
+
   //Faz a requisição das informações do usuário
   useEffect(() => {
     if (loggedUser) {
@@ -94,6 +138,11 @@ export default function App({ route }) {
             const tempPostsN = await getPostsNumber(showProfileID);
             const tempFollowers = await getFollowersNumber(showProfileID);
             const tempPosts = await getPosts(showProfileID);
+            if (loggedUser != showProfileID) {
+              const tempSegue = await verificaSegue(loggedUser, showProfileID);
+              setSegue(tempSegue);
+              console.log(segue);
+            }
 
             setUserInfoRequested(true);
             if (data) setDados(data[0]);
@@ -111,7 +160,7 @@ export default function App({ route }) {
       console.log("Usuário mostrado");
       console.log(showProfileID);
     }
-  }, [showProfileID]);
+  }, [refreshes]);
 
   if (userInfoRequested) {
     return (
@@ -120,16 +169,19 @@ export default function App({ route }) {
           alignItems: "center",
           marginLeft: "2%",
           marginRight: "2%",
+          //backgroundColor: "red",
         }}
       >
         <FlatList
+          key={stockScreen ? 1 : 3}
           showsVerticalScrollIndicator={false}
-          numColumns={3}
+          numColumns={stockScreen ? 1 : 3}
           horizontal={false}
-          //contentContainerStyle={{alignSelf: 'center'}}
-          //ListEmptyComponent= { }
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           ListHeaderComponent={
-            <View>
+            <View style={{}}>
               {/*HEADER DO PERFIL*/}
               <View style={styles.headerPerfil}>
                 <View style={styles.headerPerfilEsquerdo}>
@@ -181,12 +233,15 @@ export default function App({ route }) {
                   </View>
                   <View style={{ flexDirection: "row", alignSelf: "center" }}>
                     <TouchableOpacity
-                      disabled={isUserProfile} //Desativa o botão seguir, se o usuário estiver no próprio perfil
+                      disabled={isUserProfile || segue} //Desativa o botão seguir, se o usuário estiver no próprio perfil
                       style={
-                        isUserProfile
+                        isUserProfile || segue
                           ? styles.pressableHeaderDisabled
                           : styles.pressableHeader
                       }
+                      onPress={async () => {
+                        setSegue(await seguir(loggedUser, showProfileID));
+                      }}
                     >
                       <Text
                         style={{
@@ -200,7 +255,7 @@ export default function App({ route }) {
                         Seguir
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.pressableHeader}>
+                    {/* <TouchableOpacity style={styles.pressableHeader}>
                       <Text
                         style={{
                           textAlign: "center",
@@ -212,7 +267,7 @@ export default function App({ route }) {
                       >
                         Mensagem
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
               </View>
@@ -226,13 +281,14 @@ export default function App({ route }) {
                     marginLeft: 90,
                   }}
                 >
-                  <Pressable
-                    style={({ pressed }) => [
-                      {
-                        backgroundColor: pressed ? "#D4D4D4" : "white",
-                      },
-                      { width: 19.11, height: 21.06, marginTop: 5 },
-                    ]}
+                  <TouchableOpacity
+                    style={{ width: 25.74, height: 20.67, marginTop: 5 }}
+                    onPress={() => {
+                      setStockScreen(true);
+                      setPostsScreen(false);
+                      console.log(stockScreen);
+                      console.log(postsScreen);
+                    }}
                   >
                     <Image
                       source={require("../../../assets/images/iconePerfilAtivos.png")}
@@ -242,7 +298,7 @@ export default function App({ route }) {
                         resizeMode: "cover",
                       }}
                     />
-                  </Pressable>
+                  </TouchableOpacity>
                   <View
                     style={{
                       backgroundColor: "#eaeaea",
@@ -251,15 +307,17 @@ export default function App({ route }) {
                       fill: 1,
                       borderRadius: 10,
                       marginTop: 5,
+                      marginBottom: 5,
                     }}
                   ></View>
-                  <Pressable
-                    style={({ pressed }) => [
-                      {
-                        backgroundColor: pressed ? "#D4D4D4" : "white",
-                      },
-                      { width: 25.74, height: 20.67, marginTop: 5 },
-                    ]}
+                  <TouchableOpacity
+                    onPress={() => {
+                      setPostsScreen(true);
+                      setStockScreen(false);
+                      console.log(stockScreen);
+                      console.log(postsScreen);
+                    }}
+                    style={{ width: 25.74, height: 20.67, marginTop: 5 }}
                   >
                     <Image
                       source={require("../../../assets/images/iconePerfilFotos.png")}
@@ -269,12 +327,12 @@ export default function App({ route }) {
                         resizeMode: "cover",
                       }}
                     />
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
           }
-          data={posts}
+          data={stockScreen ? null : posts}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={[styles.publicacaoFeed]}
@@ -290,7 +348,13 @@ export default function App({ route }) {
       </View>
     );
   } else {
-    return <Text> carregando... </Text>;
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#c6b347"
+        style={{ flex: 1, justifyContent: "center" }}
+      />
+    );
   }
 }
 
@@ -324,7 +388,8 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 5,
     marginBottom: 10,
-    marginRight: 10,
+    marginRight: 0,
+    //backgroundColor: "red",
   },
   headerPerfilDireito: {
     width: 200,
@@ -332,6 +397,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     marginRight: 13,
+    //backgroundColor: "blue",
   },
   background: {
     backgroundColor: "#eaeaea",
@@ -339,8 +405,8 @@ const styles = StyleSheet.create({
   },
   headerPerfil: {
     flex: 1,
-    //marginLeft: "2%",
-    //marginRight: "2%",
+    // marginLeft: "2%",
+    // marginRight: "2%",
     marginTop: "1.9%",
     marginBottom: 10,
     backgroundColor: "#ffffff",
@@ -354,8 +420,8 @@ const styles = StyleSheet.create({
     //marginLeft: "2%",
     //marginRight: "2%",
     backgroundColor: "#ffffff",
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
+    borderRadius: 20,
+    //borderTopStartRadius: 20,
   },
   textUser: {
     marginTop: 8,
