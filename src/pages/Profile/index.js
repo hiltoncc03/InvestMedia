@@ -67,7 +67,6 @@ const verificaSegue = async (loggedUser, showProfileID) => {
 const getUserInfo = async (showProfileID) => {
   const response = await axios.get(`${baseUrl}/infoUser/${showProfileID}`);
   console.log(`${baseUrl}/infoUser/${showProfileID}`);
-  // await delay(3000);
   return response.data;
 };
 
@@ -174,7 +173,6 @@ export default function App({ route }) {
           alignItems: "center",
           marginLeft: "2%",
           marginRight: "2%",
-          //backgroundColor: "red",
         }}
       >
         <FlatList

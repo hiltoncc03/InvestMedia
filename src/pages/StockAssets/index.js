@@ -34,7 +34,6 @@ export default function Ativos() {
 
 
     return (
-
         <GestureHandlerRootView style={{ flex: 1 }}>
             <BottomSheetModalProvider>
                 <SafeAreaView>
