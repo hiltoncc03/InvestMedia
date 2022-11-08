@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { FAB } from "@rneui/themed";
 import {
   Text,
   View,
@@ -16,6 +17,8 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 import { set } from "react-native-reanimated";
+import { useNavigation } from '@react-navigation/native';
+
 const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get("window").width;
@@ -114,6 +117,8 @@ export default function App({ route }) {
   const [refreshes, setRefreshes] = React.useState(0);
   const [stockScreen, setStockScreen] = useState(true);
   const [postsScreen, setPostsScreen] = useState(false);
+  const navigation = useNavigation()
+  
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -181,7 +186,7 @@ export default function App({ route }) {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           ListHeaderComponent={
-            <View style={{}}>
+            <View style={{flex:1}}>
               {/*HEADER DO PERFIL*/}
               <View style={styles.headerPerfil}>
                 <View style={styles.headerPerfilEsquerdo}>
@@ -345,6 +350,25 @@ export default function App({ route }) {
             </TouchableOpacity>
           )}
         />
+        <FAB
+        visible={loggedUser!=showProfileID? true : false}
+        icon={{ name: "arrow-back", color: "white" }}
+        color="#c6b347"
+        placement="left"
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          position: "absolute",
+          bottom: 10,
+          right: 10,
+        }}
+        onPress={() => {
+          navigation.goBack()
+          }
+        }
+        
+      />
       </View>
     );
   } else {
@@ -412,6 +436,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 20,
     height: 200,
+    width:(windowWidth - 2160 / 100) + 6,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -421,6 +446,7 @@ const styles = StyleSheet.create({
     //marginRight: "2%",
     backgroundColor: "#ffffff",
     borderRadius: 20,
+    width: (windowWidth - 2160 / 100) + 6
     //borderTopStartRadius: 20,
   },
   textUser: {

@@ -7,38 +7,39 @@ import Ativos from './pages/StockAssets';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
 import ButtonNew from './components/ButtonNew';
-
+import { useNavigation } from '@react-navigation/native';
 import { Entypo, Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-export default function Routes({navigation, route}){
+export default function Routes({ route }) {
     const loggedUser = route.params.USER_ID;
     console.log("ROUTES" + loggedUser);
-    return(
+    const navigation = useNavigation()
+    return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-            tabBarInactiveBackgroundColor: "#CFB43C",
-            tabBarActiveBackgroundColor: "#B9A239",
-            tabBarActiveTintColor: '#E1E2E1',
-            tabBarInactiveTintColor: '#E1E2E1',
-            headerStyle: {
-                backgroundColor: '#CFB43C'
-            },
-            headerTitle: "InvestMedia",
-            headerTitleStyle:{
-                fontWeight: "bold",
-                fontSize: 22,
-                color: '#fff'
-            }
-          })}
+                tabBarInactiveBackgroundColor: "#CFB43C",
+                tabBarActiveBackgroundColor: "#B9A239",
+                tabBarActiveTintColor: '#E1E2E1',
+                tabBarInactiveTintColor: '#E1E2E1',
+                headerStyle: {
+                    backgroundColor: '#CFB43C'
+                },
+                headerTitle: "InvestMedia",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                    color: '#fff'
+                }
+            })}
         >
             <Tab.Screen
                 name="Início"
                 component={Home}
-                initialParams={{loggedUser: loggedUser}}
+                initialParams={{ loggedUser: loggedUser }}
                 options={{
-                    tabBarIcon:({size,color}) => (
+                    tabBarIcon: ({ size, color }) => (
                         <Entypo name="home" size={size} color={color} />
                     ),
                     tabBarShowLabel: false
@@ -48,9 +49,9 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Pesquisar"
                 component={Search}
-                initialParams={{loggedUser: loggedUser}}
+                initialParams={{ loggedUser: loggedUser }}
                 options={{
-                    tabBarIcon:({size,color}) => (
+                    tabBarIcon: ({ size, color }) => (
                         <Feather name="search" size={size} color={color} />
                     ),
                     tabBarShowLabel: false
@@ -60,9 +61,9 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Ativos"
                 component={Ativos}
-                initialParams={{loggedUser: loggedUser}}
+                initialParams={{ loggedUser: loggedUser }}
                 options={{
-                    tabBarIcon:({size,color}) => (
+                    tabBarIcon: ({ size, color }) => (
                         <Entypo name="line-graph" size={size} color={color} />
                     ),
                     tabBarShowLabel: false
@@ -72,9 +73,9 @@ export default function Routes({navigation, route}){
             <Tab.Screen
                 name="Perfil"
                 component={Profile}
-                initialParams={{loggedUser: loggedUser, showProfileID: loggedUser}}
+                initialParams={{ loggedUser: loggedUser, showProfileID: loggedUser }}
                 options={{
-                    tabBarIcon:({size,color}) => (
+                    tabBarIcon: ({ size, color }) => (
                         <Feather name="user" size={size} color={color} />
                     ),
                     tabBarShowLabel: false

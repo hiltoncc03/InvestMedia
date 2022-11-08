@@ -32,8 +32,6 @@ function Search({ route }) {
     console.log(loggedUser);
   }
   const [searchText, setSearchText] = useState("");
-  // const [canSearch, setCanSearch] = useState(true);
-  // const [delayTimeout, setDelayTimeout] = useState(() => { })
   const baseUrl = "https://investmedia-server.glitch.me/searchUser";
   const [list, setList] = useState([]);
 
@@ -65,10 +63,6 @@ function Search({ route }) {
           value={searchText}
           onChangeText={(t) => {
             setSearchText(t);
-
-            // setDelayTimeout(setTimeout(() => {
-            //   setCanSearch(true);
-            // }, 250));
           }}
         />
       </View>
