@@ -35,11 +35,6 @@ export const ListaItem = ({
   onPress,
 }) => {
   const ChangeColorPreço = porcentagemcotação7d > 0 ? "#34C759" : "#FF3B30";
-  const [seguido, setSeguido] = useState(false);
-  // useEffect(() => {
-  //   let temp = verificaSegue(loggedUser, ASSETS_ID);
-  //   setSeguido(temp);
-  // }, []);
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.AjustarItem}>
@@ -58,28 +53,6 @@ export const ListaItem = ({
             {" "}
             {porcentagemcotação7d}%
           </Text>
-          <TouchableOpacity
-            disabled={seguido} //Desativa o botão seguir, se o usuário estiver no próprio perfil
-            style={
-              seguido ? styles.pressableHeaderDisabled : styles.pressableHeader
-            }
-            onPress={() => {
-              const temp = seguir(loggedUser, ASSETS_ID);
-              setSeguido(true);
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: "#ffffff",
-                fontSize: 14,
-                textAlignVertical: "auto",
-                padding: 3.5,
-              }}
-            >
-              Seguir
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
@@ -112,7 +85,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#ffffff",
     flexDirection: "row",
     flex: 1,
     borderRadius: 10,

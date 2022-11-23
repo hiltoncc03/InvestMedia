@@ -57,16 +57,7 @@ function InvestPost({ user, tweet }) {
                             size={24}
                             color="rgba(104,  119,  132,  1);"
                         />
-                        <Count> {numeral(tweet.commentCount).format('0a')}  </Count>
-                    </IconContainer>
-
-                    <IconContainer>
-                        <Icon
-                            name="heart"
-                            size={24}
-                            color="rgba(104,  119,  132,  1);"
-                        />
-                        <Count> {numeral(tweet.shareCount).format('0a')}  </Count>
+                        <Count> {numeral(tweet.likeCount).format('0a')}  </Count>
                     </IconContainer>
 
                     <IconContainer>
@@ -75,9 +66,10 @@ function InvestPost({ user, tweet }) {
                             size={24}
                             color="rgba(104,  119,  132,  1);"
                         />
-                        <Count> {numeral(tweet.likeCount).format('0a')}  </Count>
+                        <Count> {numeral(tweet.shareCount).format('0a')}  </Count>
                     </IconContainer>
 
+                  
                 </Footer>
             </Content>
         </Container>

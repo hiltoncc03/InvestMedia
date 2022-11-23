@@ -36,10 +36,10 @@ export const ListaItem = ({
 }) => {
   const ChangeColorPreço = porcentagemcotação7d > 0 ? "#34C759" : "#FF3B30";
   const [seguido, setSeguido] = useState(false);
-  // useEffect(() => {
-  //   let temp = verificaSegue(loggedUser, ASSETS_ID);
-  //   setSeguido(temp);
-  // }, []);
+  useEffect(() => {
+    let temp = verificaSegue(loggedUser, ASSETS_ID);
+    setSeguido(temp);
+  }, []);
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.AjustarItem}>

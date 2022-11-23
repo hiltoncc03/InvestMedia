@@ -1,5 +1,5 @@
-import React, { FC, ReactElement, useState } from "react";
-import { Button, StyleSheet, TextInput, TouchableOpacity, Text, Image, Linking} from "react-native";
+import React, {useState } from "react";
+import {StyleSheet, TextInput, TouchableOpacity, Text, Image, Linking} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { View } from "react-native";
 import axios from 'axios';

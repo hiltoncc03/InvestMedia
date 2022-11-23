@@ -17,7 +17,9 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 import { set } from "react-native-reanimated";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { ListaItem } from "../../components/ListaItemPerfil";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +72,12 @@ const getUserInfo = async (showProfileID) => {
   return response.data;
 };
 
+const getUserAssets = async (showProfileID) => {
+  const response = await axios.get(`${baseUrl}/userAtivos/${showProfileID}`);
+  console.log(`${baseUrl}/infoUser/${showProfileID}`);
+  return response.data;
+};
+
 //Retorna uma lista dos posts do usuário
 const getPosts = async (showProfileID) => {
   const response = await axios.get(
@@ -116,8 +124,8 @@ export default function App({ route }) {
   const [refreshes, setRefreshes] = React.useState(0);
   const [stockScreen, setStockScreen] = useState(true);
   const [postsScreen, setPostsScreen] = useState(false);
-  const navigation = useNavigation()
-  
+  const [ativos, setAtivos] = useState([])
+  const navigation = useNavigation();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -142,6 +150,7 @@ export default function App({ route }) {
             const tempPostsN = await getPostsNumber(showProfileID);
             const tempFollowers = await getFollowersNumber(showProfileID);
             const tempPosts = await getPosts(showProfileID);
+            const tempAtivos = await getUserAssets(showProfileID)
             if (loggedUser != showProfileID) {
               const tempSegue = await verificaSegue(loggedUser, showProfileID);
               setSegue(tempSegue);
@@ -153,6 +162,7 @@ export default function App({ route }) {
             setPostsNumber(tempPostsN);
             setFollowersNumber(tempFollowers);
             setPosts(tempPosts);
+            setAtivos(tempAtivos)
             console.log(dadosPerfil);
           }
 
@@ -184,7 +194,7 @@ export default function App({ route }) {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           ListHeaderComponent={
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
               {/*HEADER DO PERFIL*/}
               <View style={styles.headerPerfil}>
                 <View style={styles.headerPerfilEsquerdo}>
@@ -335,38 +345,47 @@ export default function App({ route }) {
               </View>
             </View>
           }
-          data={stockScreen ? null : posts}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[styles.publicacaoFeed]}
-              onPress={() => console.log("Publicação " + item.POST_ID)}
-            >
-              <Image
-                source={{ uri: item.midia }}
-                style={styles.publicacaoFeed}
-              ></Image>
-            </TouchableOpacity>
-          )}
+          data={stockScreen ? ativos : posts}
+          renderItem={({ item }) =>
+            stockScreen ? (
+              <ListaItem
+                nome={item.nm_empresa}
+                sigla={item.cd_acao}
+                cotação={item.curPrc}
+                porcentagemcotação7d={item.prcFlcn}
+                loggedUser={loggedUser}
+                ASSETS_ID={item.ASSETS_ID}
+              />
+            ) : (
+              <TouchableOpacity
+                style={[styles.publicacaoFeed]}
+                onPress={() => console.log("Publicação " + item.POST_ID)}
+              >
+                <Image
+                  source={{ uri: item.midia }}
+                  style={styles.publicacaoFeed}
+                ></Image>
+              </TouchableOpacity>
+            )
+          }
         />
         <FAB
-        visible={loggedUser!=showProfileID? true : false}
-        icon={{ name: "arrow-back", color: "white" }}
-        color="#c6b347"
-        placement="left"
-        style={{
-          width: 60,
-          height: 60,
-          borderRadius: 30,
-          position: "absolute",
-          bottom: 10,
-          right: 10,
-        }}
-        onPress={() => {
-          navigation.goBack()
-          }
-        }
-        
-      />
+          visible={loggedUser != showProfileID ? true : false}
+          icon={{ name: "arrow-back", color: "white" }}
+          color="#c6b347"
+          placement="left"
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            position: "absolute",
+            bottom: 10,
+            right: 10,
+          }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
       </View>
     );
   } else {
@@ -389,7 +408,7 @@ const styles = StyleSheet.create({
     width: (windowWidth - 2160 / 100) / 3,
     height: (windowWidth - 2160 / 100) / 3,
     marginRight: 3,
-    marginLeft: 0,
+    //marginLeft: 0,
     marginBottom: 3,
   },
   photoPerfilSize: {
@@ -410,7 +429,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 5,
     marginBottom: 10,
-    marginRight: 0,
+    //marginRight: 0,
     //backgroundColor: "red",
   },
   headerPerfilDireito: {
@@ -422,7 +441,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "blue",
   },
   background: {
-    backgroundColor: "#eaeaea",
+    backgroundColor: "#E1E2E1",
     flex: 1,
   },
   headerPerfil: {
@@ -434,7 +453,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 20,
     height: 200,
-    width:(windowWidth - 2160 / 100) + 6,
+    width: windowWidth - 2160 / 100 + 6,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -444,7 +463,7 @@ const styles = StyleSheet.create({
     //marginRight: "2%",
     backgroundColor: "#ffffff",
     borderRadius: 20,
-    width: (windowWidth - 2160 / 100) + 6
+    width: windowWidth - 2160 / 100 + 6,
     //borderTopStartRadius: 20,
   },
   textUser: {
