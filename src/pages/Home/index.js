@@ -37,6 +37,7 @@ import { FlashList } from "@shopify/flash-list";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { Background } from "victory-native";
+import axios from "axios";
 
 //Constantes para dimensionar tamanho da tela
 const windowWidth = Dimensions.get("window").width;
@@ -50,6 +51,15 @@ const calculateHeight = (width = null) => {
   const proportion = width > Dimensions.get("screen").height ? 0.39 : 0.425;
 
   return width * proportion;
+};
+
+
+const getUserInfo = async (loggedUser) => {
+  const response = await axios.get(
+    `https://investmedia-server.glitch.me/infoUser/${loggedUser}`
+  );
+  console.log(response.data[0]);
+  return response.data;
 };
 
 //Função principal
@@ -80,7 +90,9 @@ function Home({route}) {
   const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
-
+  const [userInfo, setUserInfo] = useState([]);
+  const [userInfoRequested, setUserInfoRequested] = useState(false);
+  const navigation = useNavigation();
   const fetchPosts = useCallback(async () => {
     if (!isFetching && !error) {
       try {
@@ -95,6 +107,21 @@ function Home({route}) {
       }
     }
   }, [page, isFetching]);
+
+  useEffect(() => {
+    if (!userInfoRequested) {
+      async function load() {
+        const data = await getUserInfo(loggedUser);
+
+        
+        if (data) setUserInfo(data);
+        setUserInfoRequested(true);
+      }
+
+      load();
+    }
+    console.log(userInfo);
+  }, []);
 
   useEffect(() => {
     fetchPosts();
@@ -204,6 +231,7 @@ function Home({route}) {
       </ScrollView>
       <FAB
         visible={true}
+        disabled={!userInfoRequested}
         icon={{ name: "add", color: "white" }}
         color="#c6b347"
         placement="right"
